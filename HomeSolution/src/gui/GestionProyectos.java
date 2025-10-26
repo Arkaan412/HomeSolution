@@ -186,7 +186,7 @@ public class GestionProyectos extends JPanel {
 		costoActualProyecto.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent actionEvent) {
-				double costo = panelManager.sistema().costoProyecto();
+				double costo = panelManager.sistema().costoProyecto(numero);
 				JOptionPane.showMessageDialog(null, "El costo actual del proyecto es: " + costo);
 			}
 		});

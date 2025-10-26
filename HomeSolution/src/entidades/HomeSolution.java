@@ -1,19 +1,27 @@
 package entidades;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class HomeSolution implements IHomeSolution {
 
+	private HashMap<Integer, Proyecto> proyectos;
+	private HashMap<Integer, Empleado> empleados;
+
 	@Override
 	public void registrarEmpleado(String nombre, double valor) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		Empleado empleado = new EmpleadoContratado(nombre, valor);
 
+		int legajoEmpleado = empleado.obtenerLegajo();
+		empleados.put(legajoEmpleado, empleado);
 	}
 
 	@Override
 	public void registrarEmpleado(String nombre, double valor, String categoria) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		Empleado empleado = new EmpleadoDePlanta(nombre, valor, categoria);
 
+		int legajoEmpleado = empleado.obtenerLegajo();
+		empleados.put(legajoEmpleado, empleado);
 	}
 
 	@Override
@@ -74,7 +82,7 @@ public class HomeSolution implements IHomeSolution {
 	}
 
 	@Override
-	public double costoProyecto() {
+	public double costoProyecto(Integer numero) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -140,7 +148,7 @@ public class HomeSolution implements IHomeSolution {
 	}
 
 	@Override
-	public boolean tieneRestrasos(String legajo) {
+	public boolean tieneRestrasos(Integer legajo) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -156,5 +164,4 @@ public class HomeSolution implements IHomeSolution {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }
