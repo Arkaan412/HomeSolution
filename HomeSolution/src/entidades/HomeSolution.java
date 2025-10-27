@@ -27,8 +27,9 @@ public class HomeSolution implements IHomeSolution {
 	@Override
 	public void registrarProyecto(String[] titulos, String[] descripcion, double[] dias, String domicilio,
 			String[] cliente, String inicio, String fin) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		Proyecto proyecto = new Proyecto(titulos, descripcion, dias, domicilio, cliente, inicio, fin); 
 
+		proyectos.put(proyecto.obtenerId(), proyecto);
 	}
 
 	@Override

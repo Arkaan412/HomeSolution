@@ -2,12 +2,12 @@ package entidades;
 
 public class Cliente {
 	String nombre;
-	String telefono;
 	String mail;
+	String telefono;
 	
-	public Cliente(String nombre, String telefono, String mail) {
+	public Cliente(String nombre, String mail, String telefono) {
 		this.nombre = nombre;
-		this.telefono = telefono;
 		this.mail = mail;
+		this.telefono = telefono;
 	}
 }
