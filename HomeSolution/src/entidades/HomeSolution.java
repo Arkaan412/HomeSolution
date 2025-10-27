@@ -1,12 +1,22 @@
 package entidades;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.PriorityQueue;
 
 public class HomeSolution implements IHomeSolution {
 
 	private HashMap<Integer, Proyecto> proyectos;
 	private HashMap<Integer, Empleado> empleados;
+	private PriorityQueue<Empleado> empleadosNoAsignados;
+
+	public HomeSolution() {
+		proyectos = new HashMap<>();
+		empleados = new HashMap<>();
+		empleadosNoAsignados = new PriorityQueue<>(
+				Comparator.comparingInt(empleado -> empleado.obtenerCantidadDeRetrasos()));
+	}
 
 	@Override
 	public void registrarEmpleado(String nombre, double valor) throws IllegalArgumentException {
@@ -27,20 +37,27 @@ public class HomeSolution implements IHomeSolution {
 	@Override
 	public void registrarProyecto(String[] titulos, String[] descripcion, double[] dias, String domicilio,
 			String[] cliente, String inicio, String fin) throws IllegalArgumentException {
-		Proyecto proyecto = new Proyecto(titulos, descripcion, dias, domicilio, cliente, inicio, fin); 
+		Proyecto proyecto = new Proyecto(titulos, descripcion, dias, domicilio, cliente, inicio, fin);
 
 		proyectos.put(proyecto.obtenerId(), proyecto);
 	}
 
 	@Override
 	public void asignarResponsableEnTarea(Integer numero, String titulo) throws Exception {
-		// TODO Auto-generated method stub
+		Proyecto proyecto = proyectos.get(numero);
 
+		Empleado empleado = empleadosNoAsignados.poll();
+
+		proyecto.asignarResponsableEnTarea(titulo, empleado);
 	}
 
 	@Override
 	public void asignarResponsableMenosRetraso(Integer numero, String titulo) throws Exception {
-		// TODO Auto-generated method stub
+		Proyecto proyecto = proyectos.get(numero);
+
+		Empleado empleado = empleadosNoAsignados.poll();
+
+		proyecto.asignarResponsableEnTarea(titulo, empleado);
 
 	}
 

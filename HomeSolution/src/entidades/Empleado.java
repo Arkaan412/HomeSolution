@@ -7,6 +7,7 @@ public class Empleado {
 	private Integer legajo;
 	private double valorHora;
 	private boolean estaAsignado;
+	private int cantidadDeRetrasos;
 
 	public Empleado(String nombre) {
 		if (nombre == null || nombre == "")
@@ -24,5 +25,13 @@ public class Empleado {
 
 	public int obtenerLegajo() {
 		return legajo;
+	}
+
+	public void registrarRetraso() {
+		cantidadDeRetrasos++;
+	}
+
+	public int obtenerCantidadDeRetrasos() {
+		return cantidadDeRetrasos;
 	}
 }

@@ -7,7 +7,7 @@ public class Proyecto {
 	private static int siguienteID = 1;
 	private int idProyecto;
 
-	private HashMap<Integer, Tarea> tareas;
+	private HashMap<String, Tarea> tareas;
 
 	private Cliente cliente;
 	private String domicilio;
@@ -49,8 +49,8 @@ public class Proyecto {
 		for (int i = 0; i < cantidadTareas; i++) {
 			Tarea tarea = new Tarea(titulos[i], descripcion[i], dias[i]);
 
-			int idTarea = tarea.obtenerId();
-			tareas.put(idTarea, tarea);
+			String tituloTarea = tarea.obtenerTitulo();
+			tareas.put(tituloTarea, tarea);
 		}
 	}
 
@@ -64,6 +64,9 @@ public class Proyecto {
 		String mail = datosCliente[1];
 		String telefono = datosCliente[2];
 
+		if (nombre == "" || mail == "" || telefono == "")
+			throw new IllegalArgumentException();
+
 		Cliente cliente = new Cliente(nombre, mail, telefono);
 
 		this.cliente = cliente;
@@ -71,5 +74,21 @@ public class Proyecto {
 
 	public Integer obtenerId() {
 		return idProyecto;
+	}
+
+	public void asignarResponsableEnTarea(String titulo, Empleado empleado) {
+		if (estaFinalizado())
+			throw new RuntimeException();
+
+		Tarea tarea = tareas.get(titulo);
+
+		if (tarea.obtenerEmpleado() == null)
+			throw new RuntimeException();
+
+		tarea.asignarEmpleado(empleado);
+	}
+
+	private boolean estaFinalizado() {
+		return estado == "Finalizado";
 	}
 }

@@ -1,13 +1,10 @@
 package entidades;
 
 public class Tarea {
-	private static int siguienteID = 1;
-	private int idTarea;
-
 	private String titulo;
 	private String descripcion;
 
-	private int legajoEmpleado;
+	private Empleado empleado;
 	private boolean estaTerminada;
 
 	private double diasEstimados;
@@ -25,16 +22,21 @@ public class Tarea {
 			throw new IllegalArgumentException();
 		if (diasEstimados <= 0)
 			throw new IllegalArgumentException();
-		
+
 		this.titulo = titulo;
 		this.descripcion = descripcion;
 		this.diasEstimados = diasEstimados;
-		
-		idTarea = siguienteID++;
 	}
 
-	public int obtenerId() {
-		return idTarea;
+	public String obtenerTitulo() {
+		return titulo;
 	}
 
+	public void asignarEmpleado(Empleado empleado) {
+		this.empleado = empleado;
+	}
+
+	public Empleado obtenerEmpleado() {
+		return empleado;
+	}
 }
