@@ -38,4 +38,8 @@ public class Empleado {
 	public void liberar() {
 		estaAsignado = false;
 	}
+
+	public void asignar() {
+		estaAsignado = true;
+	}
 }

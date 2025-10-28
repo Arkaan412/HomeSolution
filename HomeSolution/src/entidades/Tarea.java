@@ -33,6 +33,8 @@ public class Tarea {
 	}
 
 	public void asignarEmpleado(Empleado empleado) {
+		empleado.asignar();
+
 		this.empleado = empleado;
 	}
 
