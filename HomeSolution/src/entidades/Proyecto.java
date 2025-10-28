@@ -114,4 +114,12 @@ public class Proyecto {
 		fechaFinReal = fechaFinReal.plusDays((long) cantidadDias);
 	}
 
+	public void finalizarTarea(String titulo) {
+		Tarea tarea = obtenerTarea(titulo);
+		if (tarea == null)
+			throw new IllegalArgumentException();
+
+		tarea.finalizar();
+	}
+
 }

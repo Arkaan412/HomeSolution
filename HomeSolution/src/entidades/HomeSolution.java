@@ -119,8 +119,14 @@ public class HomeSolution implements IHomeSolution {
 
 	@Override
 	public void finalizarTarea(Integer numero, String titulo) throws Exception {
-		// TODO Auto-generated method stub
+		Proyecto proyecto = proyectos.get(numero);
 
+		if (proyecto == null)
+			throw new IllegalArgumentException();
+		if (proyecto.estaFinalizado())
+			throw new IllegalArgumentException();
+
+		proyecto.finalizarTarea(titulo);
 	}
 
 	@Override

@@ -5,7 +5,7 @@ public class Tarea {
 	private String descripcion;
 
 	private Empleado empleado;
-	private boolean estaTerminada;
+	private boolean estaFinalizada;
 
 	private double diasEstimados;
 	private double diasDeRetraso;
@@ -42,5 +42,18 @@ public class Tarea {
 
 	public void registrarRetraso(double cantidadDias) {
 		diasDeRetraso += cantidadDias;
+	}
+
+	public void finalizar() {
+		if (estaFinalizada())
+			throw new RuntimeException();
+
+		estaFinalizada = true;
+
+		diasDeTrabajoReales = diasEstimados + diasDeRetraso;
+	}
+
+	public boolean estaFinalizada() {
+		return estaFinalizada;
 	}
 }
