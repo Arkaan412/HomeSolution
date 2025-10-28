@@ -51,6 +51,9 @@ public class HomeSolution implements IHomeSolution {
 	public void asignarResponsableEnTarea(Integer numero, String titulo) throws Exception {
 		Empleado empleadoNoAsignado = obtenerEmpleadoNoAsignado();
 
+		if (empleadoNoAsignado == null)
+			throw new RuntimeException();
+
 		Proyecto proyecto = proyectos.get(numero);
 
 		int legajoEmpleado = empleadoNoAsignado.obtenerLegajo();
@@ -62,15 +65,12 @@ public class HomeSolution implements IHomeSolution {
 	private Empleado obtenerEmpleadoNoAsignado() {
 		List<Empleado> empleados = new ArrayList<>(this.empleados.values());
 
-		int i = 0;
-		Empleado empleado = empleados.get(i);
-
-		while (empleado.estaAsignado()) {
-			i++;
-			empleado = empleados.get(i);
+		for (Empleado e : empleados) {
+			if (!e.estaAsignado())
+				return e;
 		}
 
-		return empleado;
+		return null;
 	}
 
 	private void actualizarEstadoEmpleadoEnRegistro(int legajoEmpleado) {
@@ -83,9 +83,12 @@ public class HomeSolution implements IHomeSolution {
 	public void asignarResponsableMenosRetraso(Integer numero, String titulo) throws Exception {
 		Proyecto proyecto = proyectos.get(numero);
 
-		Empleado empleado = empleadosNoAsignados.poll();
+		Empleado empleadoNoAsignado = empleadosNoAsignados.poll();
 
-		proyecto.asignarResponsableEnTarea(titulo, empleado);
+		if (empleadoNoAsignado == null)
+			throw new RuntimeException();
+
+		proyecto.asignarResponsableEnTarea(titulo, empleadoNoAsignado);
 	}
 
 	@Override
