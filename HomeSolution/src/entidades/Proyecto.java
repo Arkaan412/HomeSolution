@@ -47,11 +47,15 @@ public class Proyecto {
 		int cantidadTareas = titulos.length;
 
 		for (int i = 0; i < cantidadTareas; i++) {
-			Tarea tarea = new Tarea(titulos[i], descripcion[i], dias[i]);
-
-			String tituloTarea = tarea.obtenerTitulo();
-			tareas.put(tituloTarea, tarea);
+			agregarTarea(titulos[i], descripcion[i], dias[i]);
 		}
+	}
+
+	public void agregarTarea(String titulo, String descripcion, double dias) {
+		Tarea tarea = new Tarea(titulo, descripcion, dias);
+
+		String tituloTarea = tarea.obtenerTitulo();
+		tareas.put(tituloTarea, tarea);
 	}
 
 	private void crearCliente(String[] datosCliente) {
@@ -88,7 +92,7 @@ public class Proyecto {
 		tarea.asignarEmpleado(empleado);
 	}
 
-	private boolean estaFinalizado() {
+	public boolean estaFinalizado() {
 		return estado == "Finalizado";
 	}
 
@@ -98,15 +102,16 @@ public class Proyecto {
 
 	public void registrarRetraso(String titulo, double cantidadDias) {
 		Tarea tarea = obtenerTarea(titulo);
-		if (tarea == null) throw new IllegalArgumentException();
-		
+		if (tarea == null)
+			throw new IllegalArgumentException();
+
 		tarea.registrarRetraso(cantidadDias);
-		
+
 		actualizarFechaFinReal(cantidadDias);
 	}
 
 	private void actualizarFechaFinReal(double cantidadDias) {
 		fechaFinReal = fechaFinReal.plusDays((long) cantidadDias);
 	}
-	
+
 }
