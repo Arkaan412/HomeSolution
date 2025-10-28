@@ -127,6 +127,15 @@ public class HomeSolution implements IHomeSolution {
 			throw new IllegalArgumentException();
 
 		proyecto.finalizarTarea(titulo);
+
+		Empleado empleado = proyecto.obtenerTarea(titulo).obtenerEmpleado();
+
+		liberarEmpleado(empleado);
+	}
+
+	private void liberarEmpleado(Empleado empleado) {
+		empleadosNoAsignados.add(empleado);
+		empleado.liberar();
 	}
 
 	@Override

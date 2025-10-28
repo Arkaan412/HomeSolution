@@ -34,4 +34,8 @@ public class Empleado {
 	public int obtenerCantidadDeRetrasos() {
 		return cantidadDeRetrasos;
 	}
+
+	public void liberar() {
+		estaAsignado = false;
+	}
 }
