@@ -122,4 +122,15 @@ public class Proyecto {
 		tarea.finalizar();
 	}
 
+	public void finalizarProyecto(String fin) {
+		LocalDate fechaFin = LocalDate.parse(fin);
+
+		if (fechaFin.isBefore(fechaInicio))
+			throw new IllegalArgumentException();
+
+		fechaFinReal = fechaFin;
+
+		estado = "Finalizado";
+	}
+
 }
