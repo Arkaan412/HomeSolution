@@ -39,4 +39,8 @@ public class Tarea {
 	public Empleado obtenerEmpleado() {
 		return empleado;
 	}
+
+	public void registrarRetraso(double cantidadDias) {
+		diasDeRetraso += cantidadDias;
+	}
 }

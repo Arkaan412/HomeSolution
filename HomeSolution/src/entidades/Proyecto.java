@@ -80,7 +80,7 @@ public class Proyecto {
 		if (estaFinalizado())
 			throw new RuntimeException();
 
-		Tarea tarea = tareas.get(titulo);
+		Tarea tarea = obtenerTarea(titulo);
 
 		if (tarea.obtenerEmpleado() == null)
 			throw new RuntimeException();
@@ -91,4 +91,22 @@ public class Proyecto {
 	private boolean estaFinalizado() {
 		return estado == "Finalizado";
 	}
+
+	public Tarea obtenerTarea(String titulo) {
+		return tareas.get(titulo);
+	}
+
+	public void registrarRetraso(String titulo, double cantidadDias) {
+		Tarea tarea = obtenerTarea(titulo);
+		if (tarea == null) throw new IllegalArgumentException();
+		
+		tarea.registrarRetraso(cantidadDias);
+		
+		actualizarFechaFinReal(cantidadDias);
+	}
+
+	private void actualizarFechaFinReal(double cantidadDias) {
+		fechaFinReal = fechaFinReal.plusDays((long) cantidadDias);
+	}
+	
 }

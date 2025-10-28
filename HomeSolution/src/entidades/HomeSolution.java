@@ -94,8 +94,14 @@ public class HomeSolution implements IHomeSolution {
 	@Override
 	public void registrarRetrasoEnTarea(Integer numero, String titulo, double cantidadDias)
 			throws IllegalArgumentException {
-		// TODO Auto-generated method stub
+		if (cantidadDias <= 0)
+			throw new IllegalArgumentException();
 
+		Proyecto proyecto = proyectos.get(numero);
+		if (proyecto == null)
+			throw new IllegalArgumentException();
+
+		proyecto.registrarRetraso(titulo, cantidadDias);
 	}
 
 	@Override
