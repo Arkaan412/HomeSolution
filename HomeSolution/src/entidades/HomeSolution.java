@@ -1,5 +1,6 @@
 package entidades;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +25,8 @@ public class HomeSolution implements IHomeSolution {
 
 		int legajoEmpleado = empleado.obtenerLegajo();
 		empleados.put(legajoEmpleado, empleado);
+
+		empleadosNoAsignados.add(empleado);
 	}
 
 	@Override
@@ -32,6 +35,8 @@ public class HomeSolution implements IHomeSolution {
 
 		int legajoEmpleado = empleado.obtenerLegajo();
 		empleados.put(legajoEmpleado, empleado);
+
+		empleadosNoAsignados.add(empleado);
 	}
 
 	@Override
@@ -44,11 +49,34 @@ public class HomeSolution implements IHomeSolution {
 
 	@Override
 	public void asignarResponsableEnTarea(Integer numero, String titulo) throws Exception {
+		Empleado empleadoNoAsignado = obtenerEmpleadoNoAsignado();
+
 		Proyecto proyecto = proyectos.get(numero);
 
-		Empleado empleado = empleadosNoAsignados.poll();
+		int legajoEmpleado = empleadoNoAsignado.obtenerLegajo();
+		actualizarEstadoEmpleadoEnRegistro(legajoEmpleado);
 
-		proyecto.asignarResponsableEnTarea(titulo, empleado);
+		proyecto.asignarResponsableEnTarea(titulo, empleadoNoAsignado);
+	}
+
+	private Empleado obtenerEmpleadoNoAsignado() {
+		List<Empleado> empleados = new ArrayList<>(this.empleados.values());
+
+		int i = 0;
+		Empleado empleado = empleados.get(i);
+
+		while (empleado.estaAsignado()) {
+			i++;
+			empleado = empleados.get(i);
+		}
+
+		return empleado;
+	}
+
+	private void actualizarEstadoEmpleadoEnRegistro(int legajoEmpleado) {
+		Empleado empleado = empleados.get(legajoEmpleado);
+
+		empleadosNoAsignados.remove(empleado);
 	}
 
 	@Override
@@ -58,7 +86,6 @@ public class HomeSolution implements IHomeSolution {
 		Empleado empleado = empleadosNoAsignados.poll();
 
 		proyecto.asignarResponsableEnTarea(titulo, empleado);
-
 	}
 
 	@Override
