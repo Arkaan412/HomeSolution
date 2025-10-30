@@ -53,9 +53,27 @@ public class Tarea {
 		estaFinalizada = true;
 
 		diasDeTrabajoReales = diasEstimados + diasDeRetraso;
+
+		liberarEmpleado();
+	}
+
+	private void liberarEmpleado() {
+		empleado.liberar();
 	}
 
 	public boolean estaFinalizada() {
 		return estaFinalizada;
+	}
+
+	public Empleado reasignarEmpleado(Empleado nuevoEmpleado) {
+		if (this.empleado == null)
+			throw new RuntimeException();
+
+		Empleado empleadoAnterior = this.empleado;
+		this.empleado.liberar();
+
+		asignarEmpleado(nuevoEmpleado);
+		
+		return empleadoAnterior;
 	}
 }

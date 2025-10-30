@@ -133,4 +133,12 @@ public class Proyecto {
 		estado = "Finalizado";
 	}
 
+	public Empleado reasignarEmpleado(String titulo, Empleado empleado) {
+		Tarea tarea = obtenerTarea(titulo);
+		if (tarea == null)
+			throw new IllegalArgumentException();
+
+		return tarea.reasignarEmpleado(empleado);
+	}
+
 }

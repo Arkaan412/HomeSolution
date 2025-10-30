@@ -83,12 +83,16 @@ public class HomeSolution implements IHomeSolution {
 	public void asignarResponsableMenosRetraso(Integer numero, String titulo) throws Exception {
 		Proyecto proyecto = proyectos.get(numero);
 
-		Empleado empleadoNoAsignado = empleadosNoAsignados.poll();
+		Empleado empleadoNoAsignado = obtenerEmpleadoConMenosRetrasos();
 
 		if (empleadoNoAsignado == null)
 			throw new RuntimeException();
 
 		proyecto.asignarResponsableEnTarea(titulo, empleadoNoAsignado);
+	}
+
+	private Empleado obtenerEmpleadoConMenosRetrasos() {
+		return empleadosNoAsignados.poll();
 	}
 
 	@Override
@@ -152,14 +156,34 @@ public class HomeSolution implements IHomeSolution {
 
 	@Override
 	public void reasignarEmpleadoEnProyecto(Integer numero, Integer legajo, String titulo) throws Exception {
-		// TODO Auto-generated method stub
+		if (!hayEmpleadosDisponibles())
+			throw new IllegalArgumentException();
 
+		Proyecto proyecto = proyectos.get(numero);
+
+		if (proyecto == null)
+			throw new IllegalArgumentException();
+		if (proyecto.estaFinalizado())
+			throw new IllegalArgumentException();
+
+		Empleado empleado = empleados.get(legajo);
+
+		if (empleado.estaAsignado())
+			throw new IllegalArgumentException();
+
+		Empleado empleadoAnterior = proyecto.reasignarEmpleado(titulo, empleado);
+
+		liberarEmpleado(empleadoAnterior);
+	}
+
+	private boolean hayEmpleadosDisponibles() {
+		return !empleadosNoAsignados.isEmpty();
 	}
 
 	@Override
 	public void reasignarEmpleadoConMenosRetraso(Integer numero, String titulo) throws Exception {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
