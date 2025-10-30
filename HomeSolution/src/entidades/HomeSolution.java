@@ -327,8 +327,12 @@ public class HomeSolution implements IHomeSolution {
 
 	@Override
 	public String consultarDomicilioProyecto(Integer numero) {
-		// TODO Auto-generated method stub
-		return null;
+		Proyecto proyecto = proyectos.get(numero);
+
+		if (proyecto == null)
+			throw new IllegalArgumentException();
+
+		return proyecto.obtenerDomicilio();
 	}
 
 	@Override
