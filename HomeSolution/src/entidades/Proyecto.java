@@ -176,4 +176,19 @@ public class Proyecto {
 		return empleadosAsignados;
 	}
 
+	public List<Tarea> tareasProyectoNoAsignadas() {
+		List<Tarea> tareas = new ArrayList<>(this.tareas.values());
+
+		List<Tarea> tareasNoAsignadas = new ArrayList<>();
+
+		for (Tarea tarea : tareas) {
+			Empleado empleadoAsignado = tarea.obtenerEmpleado();
+
+			if (empleadoAsignado == null)
+				tareasNoAsignadas.add(tarea);
+		}
+
+		return tareasNoAsignadas;
+	}
+
 }

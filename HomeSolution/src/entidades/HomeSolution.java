@@ -303,8 +303,14 @@ public class HomeSolution implements IHomeSolution {
 
 	@Override
 	public Object[] tareasProyectoNoAsignadas(Integer numero) {
-		// TODO Auto-generated method stub
-		return null;
+		Proyecto proyecto = proyectos.get(numero);
+
+		if (proyecto == null)
+			throw new IllegalArgumentException();
+
+		List<Tarea> tareasProyectoNoAsignadas = new ArrayList<>(proyecto.tareasProyectoNoAsignadas());
+		
+		return tareasProyectoNoAsignadas.toArray();
 	}
 
 	@Override
