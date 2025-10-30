@@ -191,4 +191,10 @@ public class Proyecto {
 		return tareasNoAsignadas.toArray();
 	}
 
+	public Object[] tareasDeUnProyecto() {
+		List<Tarea> tareas = new ArrayList<>(this.tareas.values());
+
+		return tareas.toArray();
+	}
+
 }

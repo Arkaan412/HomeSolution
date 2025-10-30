@@ -315,8 +315,14 @@ public class HomeSolution implements IHomeSolution {
 
 	@Override
 	public Object[] tareasDeUnProyecto(Integer numero) {
-		// TODO Auto-generated method stub
-		return null;
+		Proyecto proyecto = proyectos.get(numero);
+
+		if (proyecto == null)
+			throw new IllegalArgumentException();
+
+		Object[] tareasDeUnProyecto = proyecto.tareasDeUnProyecto();
+
+		return tareasDeUnProyecto;
 	}
 
 	@Override
