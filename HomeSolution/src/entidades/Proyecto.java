@@ -141,4 +141,8 @@ public class Proyecto {
 		return tarea.reasignarEmpleado(empleado);
 	}
 
+	public String obtenerDomicilio() {
+		return domicilio;
+	}
+
 }

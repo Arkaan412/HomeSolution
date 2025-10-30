@@ -199,8 +199,22 @@ public class HomeSolution implements IHomeSolution {
 
 	@Override
 	public List<Tupla<Integer, String>> proyectosFinalizados() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Proyecto> proyectos = new ArrayList<>(this.proyectos.values());
+
+		List<Tupla<Integer, String>> proyectosFinalizados = new ArrayList<>();
+
+		for (Proyecto proyecto : proyectos) {
+			if (proyecto.estaFinalizado()) {
+				int numero = proyecto.obtenerId();
+				String domicilio = proyecto.obtenerDomicilio();
+
+				Tupla<Integer, String> proyectoFinalizado = new Tupla<Integer, String>(numero, domicilio);
+
+				proyectosFinalizados.add(proyectoFinalizado);
+			}
+		}
+
+		return proyectosFinalizados;
 	}
 
 	@Override
