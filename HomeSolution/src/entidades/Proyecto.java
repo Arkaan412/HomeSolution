@@ -176,7 +176,7 @@ public class Proyecto {
 		return empleadosAsignados;
 	}
 
-	public List<Tarea> tareasProyectoNoAsignadas() {
+	public Object[] tareasProyectoNoAsignadas() {
 		List<Tarea> tareas = new ArrayList<>(this.tareas.values());
 
 		List<Tarea> tareasNoAsignadas = new ArrayList<>();
@@ -188,7 +188,7 @@ public class Proyecto {
 				tareasNoAsignadas.add(tarea);
 		}
 
-		return tareasNoAsignadas;
+		return tareasNoAsignadas.toArray();
 	}
 
 }

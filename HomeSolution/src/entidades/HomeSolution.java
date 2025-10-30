@@ -308,9 +308,9 @@ public class HomeSolution implements IHomeSolution {
 		if (proyecto == null)
 			throw new IllegalArgumentException();
 
-		List<Tarea> tareasProyectoNoAsignadas = new ArrayList<>(proyecto.tareasProyectoNoAsignadas());
-		
-		return tareasProyectoNoAsignadas.toArray();
+		Object[] tareasProyectoNoAsignadas = proyecto.tareasProyectoNoAsignadas();
+
+		return tareasProyectoNoAsignadas;
 	}
 
 	@Override
