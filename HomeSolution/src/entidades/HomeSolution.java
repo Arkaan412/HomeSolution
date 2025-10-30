@@ -182,8 +182,13 @@ public class HomeSolution implements IHomeSolution {
 
 	@Override
 	public void reasignarEmpleadoConMenosRetraso(Integer numero, String titulo) throws Exception {
-		// TODO Auto-generated method stub
-		
+		if (!hayEmpleadosDisponibles())
+			throw new IllegalArgumentException();
+
+		Empleado empleado = obtenerEmpleadoConMenosRetrasos();
+		int legajo = empleado.obtenerLegajo();
+
+		reasignarEmpleadoEnProyecto(numero, legajo, titulo);
 	}
 
 	@Override
