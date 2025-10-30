@@ -281,8 +281,12 @@ public class HomeSolution implements IHomeSolution {
 	
 	@Override
 	public int consultarCantidadRetrasosEmpleado(Integer legajo) {
-		// TODO Auto-generated method stub
-		return 0;
+		Empleado empleado = empleados.get(legajo);
+
+		if (empleado == null)
+			throw new IllegalArgumentException();
+		
+		return empleado.obtenerCantidadDeRetrasos();
 	}
 
 	@Override
