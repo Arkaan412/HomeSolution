@@ -145,4 +145,8 @@ public class Proyecto {
 		return domicilio;
 	}
 
+	public boolean estaPendiente() {
+		return estado == "Pendiente";
+	}
+
 }
