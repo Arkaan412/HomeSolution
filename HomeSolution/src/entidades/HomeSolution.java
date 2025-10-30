@@ -115,7 +115,7 @@ public class HomeSolution implements IHomeSolution {
 
 		if (proyecto == null)
 			throw new IllegalArgumentException();
-		if (proyecto.estaFinalizado())
+		if (estaFinalizado(proyecto))
 			throw new IllegalArgumentException();
 
 		proyecto.agregarTarea(titulo, descripcion, dias);
@@ -127,7 +127,7 @@ public class HomeSolution implements IHomeSolution {
 
 		if (proyecto == null)
 			throw new IllegalArgumentException();
-		if (proyecto.estaFinalizado())
+		if (estaFinalizado(proyecto))
 			throw new IllegalArgumentException();
 
 		proyecto.finalizarTarea(titulo);
@@ -148,7 +148,7 @@ public class HomeSolution implements IHomeSolution {
 
 		if (proyecto == null)
 			throw new IllegalArgumentException();
-		if (proyecto.estaFinalizado())
+		if (estaFinalizado(proyecto))
 			throw new IllegalArgumentException();
 
 		proyecto.finalizarProyecto(fin);
@@ -163,7 +163,7 @@ public class HomeSolution implements IHomeSolution {
 
 		if (proyecto == null)
 			throw new IllegalArgumentException();
-		if (proyecto.estaFinalizado())
+		if (estaFinalizado(proyecto))
 			throw new IllegalArgumentException();
 
 		Empleado empleado = empleados.get(legajo);
@@ -204,7 +204,7 @@ public class HomeSolution implements IHomeSolution {
 		List<Tupla<Integer, String>> proyectosFinalizados = new ArrayList<>();
 
 		for (Proyecto proyecto : proyectos) {
-			if (proyecto.estaFinalizado()) {
+			if (estaFinalizado(proyecto)) {
 				int numero = proyecto.obtenerId();
 				String domicilio = proyecto.obtenerDomicilio();
 
@@ -264,10 +264,21 @@ public class HomeSolution implements IHomeSolution {
 
 	@Override
 	public boolean estaFinalizado(Integer numero) {
-		// TODO Auto-generated method stub
-		return false;
+		Proyecto proyecto = proyectos.get(numero);
+
+		if (proyecto == null)
+			throw new IllegalArgumentException();
+
+		return proyecto.estaFinalizado();
 	}
 
+	public boolean estaFinalizado(Proyecto proyecto) {
+		if (proyecto == null)
+			throw new IllegalArgumentException();
+
+		return proyecto.estaFinalizado();
+	}
+	
 	@Override
 	public int consultarCantidadRetrasosEmpleado(Integer legajo) {
 		// TODO Auto-generated method stub
