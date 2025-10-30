@@ -149,4 +149,8 @@ public class Proyecto {
 		return estado == "Pendiente";
 	}
 
+	public boolean estaActivo() {
+		return estado == "Activo";
+	}
+
 }
