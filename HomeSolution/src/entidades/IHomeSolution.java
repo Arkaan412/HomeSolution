@@ -203,7 +203,7 @@ public interface IHomeSolution {
 	/**
 	 * Devuelve los empleados que no están asignados a ningún proyecto.
 	 * 
-	 * @return Arreglo de empleados no asignados.
+	 * @return Arreglo de empleados no asignados (solo numero de legajo)
 	 */
 	public Object[] empleadosNoAsignados();
 
