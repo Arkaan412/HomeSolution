@@ -337,14 +337,27 @@ public class HomeSolution implements IHomeSolution {
 
 	@Override
 	public boolean tieneRestrasos(Integer legajo) {
-		// TODO Auto-generated method stub
-		return false;
+		int cantidadDeRetrasos = consultarCantidadRetrasosEmpleado(legajo);
+
+		return (cantidadDeRetrasos > 0 ? true : false);
 	}
 
 	@Override
 	public List<Tupla<Integer, String>> empleados() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Empleado> empleados = new ArrayList<>(this.empleados.values());
+
+		List<Tupla<Integer, String>> datosEmpleados = new ArrayList<>();
+
+		for (Empleado empleado : empleados) {
+			int legajo = empleado.obtenerLegajo();
+			String nombre = empleado.obtenerNombre();
+
+			Tupla<Integer, String> datosEmpleado = new Tupla<>(legajo, nombre);
+
+			datosEmpleados.add(datosEmpleado);
+		}
+
+		return datosEmpleados;
 	}
 
 	@Override
