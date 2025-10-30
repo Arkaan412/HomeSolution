@@ -259,8 +259,7 @@ public class HomeSolution implements IHomeSolution {
 
 	@Override
 	public Object[] empleadosNoAsignados() {
-		// TODO Auto-generated method stub
-		return null;
+		return empleadosNoAsignados.toArray();
 	}
 
 	@Override
