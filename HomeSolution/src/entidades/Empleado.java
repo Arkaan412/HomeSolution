@@ -42,4 +42,8 @@ public class Empleado {
 	public void asignar() {
 		estaAsignado = true;
 	}
+
+	public String obtenerNombre() {
+		return nombre;
+	}
 }

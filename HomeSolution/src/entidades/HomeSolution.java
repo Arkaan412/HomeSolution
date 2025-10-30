@@ -278,21 +278,27 @@ public class HomeSolution implements IHomeSolution {
 
 		return proyecto.estaFinalizado();
 	}
-	
+
 	@Override
 	public int consultarCantidadRetrasosEmpleado(Integer legajo) {
 		Empleado empleado = empleados.get(legajo);
 
 		if (empleado == null)
 			throw new IllegalArgumentException();
-		
+
 		return empleado.obtenerCantidadDeRetrasos();
 	}
 
 	@Override
 	public List<Tupla<Integer, String>> empleadosAsignadosAProyecto(Integer numero) {
-		// TODO Auto-generated method stub
-		return null;
+		Proyecto proyecto = proyectos.get(numero);
+
+		if (proyecto == null)
+			throw new IllegalArgumentException();
+
+		List<Tupla<Integer, String>> empleadosAsignados = proyecto.empleadosAsignados();
+
+		return empleadosAsignados;
 	}
 
 	@Override

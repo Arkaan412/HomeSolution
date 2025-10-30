@@ -1,7 +1,9 @@
 package entidades;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Proyecto {
 	private static int siguienteID = 1;
@@ -151,6 +153,27 @@ public class Proyecto {
 
 	public boolean estaActivo() {
 		return estado == "Activo";
+	}
+
+	public List<Tupla<Integer, String>> empleadosAsignados() {
+		List<Tarea> tareas = new ArrayList<>(this.tareas.values());
+
+		List<Tupla<Integer, String>> empleadosAsignados = new ArrayList<>();
+
+		for (Tarea tarea : tareas) {
+			Empleado empleadoAsignado = tarea.obtenerEmpleado();
+
+			if (empleadoAsignado != null) {
+				int legajo = empleadoAsignado.obtenerLegajo();
+				String nombre = empleadoAsignado.obtenerNombre();
+
+				Tupla<Integer, String> datosEmpleado = new Tupla<Integer, String>(legajo, nombre);
+
+				empleadosAsignados.add(datosEmpleado);
+			}
+		}
+
+		return empleadosAsignados;
 	}
 
 }
