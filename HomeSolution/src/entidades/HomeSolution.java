@@ -366,7 +366,56 @@ public class HomeSolution implements IHomeSolution {
 
 	@Override
 	public String consultarProyecto(Integer numero) {
-		// TODO Auto-generated method stub
-		return null;
+		Proyecto proyecto = proyectos.get(numero);
+
+		if (proyecto == null)
+			throw new IllegalArgumentException();
+
+		return proyecto.toString();
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder infoEmpresa = new StringBuilder();
+
+		infoEmpresa.append("Empresa de servicios de mantenimiento 'HomeSolution'.\n");
+		infoEmpresa.append("Nuestros especialistas son: \n");
+		infoEmpresa.append(armarLineasDeEmpleados());
+		infoEmpresa.append("Proyectos:");
+		infoEmpresa.append(armarLineasDeProyectos());
+
+		String homeSolution = infoEmpresa.toString();
+
+		return homeSolution;
+	}
+
+	private String armarLineasDeProyectos() {
+		StringBuilder infoProyectos = new StringBuilder();
+		ArrayList<Proyecto> proyectos = new ArrayList<>(this.proyectos.values());
+
+		for (Proyecto proyecto : proyectos) {
+			infoProyectos.append("	");
+			infoProyectos.append(proyecto);
+			infoProyectos.append("\n");
+		}
+
+		String lineasDeProyectos = infoProyectos.toString();
+
+		return lineasDeProyectos;
+	}
+
+	private String armarLineasDeEmpleados() {
+		StringBuilder infoEmpleados = new StringBuilder();
+		ArrayList<Empleado> empleados = new ArrayList<>(this.empleados.values());
+
+		for (Empleado empleado : empleados) {
+			infoEmpleados.append("	");
+			infoEmpleados.append(empleado);
+			infoEmpleados.append("\n");
+		}
+
+		String lineasDeEmpleados = infoEmpleados.toString();
+
+		return lineasDeEmpleados;
 	}
 }

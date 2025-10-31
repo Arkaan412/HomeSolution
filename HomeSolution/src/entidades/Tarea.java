@@ -94,4 +94,9 @@ public class Tarea {
 	public boolean huboRetrasos() {
 		return diasDeRetraso > 0;
 	}
+
+	@Override
+	public String toString() {
+		return titulo;
+	}
 }

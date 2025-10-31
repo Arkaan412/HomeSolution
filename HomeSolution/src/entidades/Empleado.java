@@ -48,4 +48,11 @@ public abstract class Empleado {
 	}
 
 	public abstract double calcularCosto(double cantidadDeDias);
+
+	@Override
+	public String toString() {
+		String infoEmpleado = nombre + " | " + "Legajo: " + legajo;
+
+		return infoEmpleado;
+	}
 }

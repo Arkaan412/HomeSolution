@@ -92,7 +92,7 @@ public class Proyecto {
 			throw new RuntimeException();
 
 		tarea.asignarEmpleado(empleado);
-		
+
 		calcularCostoProyecto();
 	}
 
@@ -112,7 +112,7 @@ public class Proyecto {
 		tarea.registrarRetraso(cantidadDias);
 
 		actualizarFechaFinReal(cantidadDias);
-		
+
 		calcularCostoProyecto();
 	}
 
@@ -234,5 +234,43 @@ public class Proyecto {
 			costoProyecto *= porcentajeAdicional;
 
 		costoFinal = costoProyecto;
+	}
+
+//	número, domicilio, cliente,	fecha finalización real), tareas realizadas, costo final del proyecto, y si tuvo o no retrasos
+	@Override
+	public String toString() {
+		StringBuilder infoProyecto = new StringBuilder();
+
+		infoProyecto.append("Proyecto n°" + idProyecto + ": \n");
+		infoProyecto.append("\t");
+		infoProyecto.append("Domicilio:" + domicilio + "\n");
+		infoProyecto.append("\t");
+		infoProyecto.append("Cliente:" + cliente + "\n");
+		infoProyecto.append("\t");
+		infoProyecto.append("Fecha finalización real:" + fechaFinReal + "\n");
+		infoProyecto.append("\t");
+		infoProyecto.append("Tareas realizadas:" + "\n");
+		infoProyecto.append(armarLineasDeTareas());
+		infoProyecto.append("\t");
+		infoProyecto.append("Costo final:" + costoFinal + "\n");
+		infoProyecto.append("\t");
+//		infoProyecto.append("¿Hubo retrasos?: " + );
+
+		return infoProyecto.toString();
+	}
+
+	private String armarLineasDeTareas() {
+		StringBuilder infoTareas = new StringBuilder();
+		ArrayList<Tarea> tareas = new ArrayList<>(this.tareas.values());
+
+		for (Tarea tarea : tareas) {
+			infoTareas.append("\t\t	");
+			infoTareas.append(tarea);
+			infoTareas.append("\n");
+		}
+
+		String lineasDeTareas = infoTareas.toString();
+
+		return lineasDeTareas;
 	}
 }
