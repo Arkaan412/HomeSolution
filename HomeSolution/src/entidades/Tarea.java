@@ -13,7 +13,7 @@ public class Tarea {
 
 	private static final int cantidadHorasDiaCompleto = 8;
 	private static final int cantidadHorasMedioDia = 4;
-	private static final int adicionalEmpleadoSinRetrasos = 2;
+	private static final double adicionalEmpleadoSinRetrasos = 1.02;
 
 	public Tarea(String titulo, String descripcion, double diasEstimados) {
 		if (titulo == null || titulo == "")
@@ -73,7 +73,25 @@ public class Tarea {
 		this.empleado.liberar();
 
 		asignarEmpleado(nuevoEmpleado);
-		
+
 		return empleadoAnterior;
+	}
+
+	public double obtenerCosto() {
+		double costoEmpleado = empleado.calcularCosto(diasDeTrabajoReales);
+
+		boolean esEmpleadoDePlanta = empleado instanceof EmpleadoDePlanta;
+
+		if (!esEmpleadoDePlanta)
+			return costoEmpleado;
+
+		if (!huboRetrasos())
+			return costoEmpleado * adicionalEmpleadoSinRetrasos;
+
+		return costoEmpleado;
+	}
+
+	public boolean huboRetrasos() {
+		return diasDeRetraso > 0;
 	}
 }

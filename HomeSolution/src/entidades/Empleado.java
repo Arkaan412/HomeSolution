@@ -1,6 +1,6 @@
 package entidades;
 
-public class Empleado {
+public abstract class Empleado {
 	private static int siguienteLegajo = 1;
 
 	private String nombre;
@@ -46,4 +46,6 @@ public class Empleado {
 	public String obtenerNombre() {
 		return nombre;
 	}
+
+	public abstract double calcularCosto(double cantidadDeDias);
 }

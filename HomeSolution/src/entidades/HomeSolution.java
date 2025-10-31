@@ -193,8 +193,12 @@ public class HomeSolution implements IHomeSolution {
 
 	@Override
 	public double costoProyecto(Integer numero) {
-		// TODO Auto-generated method stub
-		return 0;
+		Proyecto proyecto = proyectos.get(numero);
+
+		if (proyecto == null)
+			throw new IllegalArgumentException();
+
+		return proyecto.costoProyecto();
 	}
 
 	@Override

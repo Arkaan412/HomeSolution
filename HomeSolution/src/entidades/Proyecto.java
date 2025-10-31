@@ -20,8 +20,8 @@ public class Proyecto {
 	private LocalDate fechaFinReal;
 
 	private double costoFinal;
-	private static final int porcentajeAdicional = 35;
-	private static final int porcentajeAdicionalConRetraso = 25;
+	private static final double porcentajeAdicional = 1.35;
+	private static final double porcentajeAdicionalConRetrasos = 1.25;
 
 	public Proyecto(String[] titulos, String[] descripcion, double[] dias, String domicilio, String[] cliente,
 			String inicio, String fin) {
@@ -92,6 +92,8 @@ public class Proyecto {
 			throw new RuntimeException();
 
 		tarea.asignarEmpleado(empleado);
+		
+		calcularCostoProyecto();
 	}
 
 	public boolean estaFinalizado() {
@@ -110,6 +112,8 @@ public class Proyecto {
 		tarea.registrarRetraso(cantidadDias);
 
 		actualizarFechaFinReal(cantidadDias);
+		
+		calcularCostoProyecto();
 	}
 
 	private void actualizarFechaFinReal(double cantidadDias) {
@@ -122,6 +126,8 @@ public class Proyecto {
 			throw new IllegalArgumentException();
 
 		tarea.finalizar();
+
+		calcularCostoProyecto();
 	}
 
 	public void finalizarProyecto(String fin) {
@@ -133,6 +139,8 @@ public class Proyecto {
 		fechaFinReal = fechaFin;
 
 		estado = "Finalizado";
+
+		calcularCostoProyecto();
 	}
 
 	public Empleado reasignarEmpleado(String titulo, Empleado empleado) {
@@ -140,7 +148,11 @@ public class Proyecto {
 		if (tarea == null)
 			throw new IllegalArgumentException();
 
-		return tarea.reasignarEmpleado(empleado);
+		Empleado empleadoAnterior = tarea.reasignarEmpleado(empleado);
+
+		calcularCostoProyecto();
+
+		return empleadoAnterior;
 	}
 
 	public String obtenerDomicilio() {
@@ -197,4 +209,30 @@ public class Proyecto {
 		return tareas.toArray();
 	}
 
+	public double costoProyecto() {
+		return costoFinal;
+	}
+
+	private void calcularCostoProyecto() {
+		List<Tarea> tareas = new ArrayList<>(this.tareas.values());
+
+		double costoProyecto = 0;
+
+		boolean huboRetrasos = false;
+
+		for (Tarea tarea : tareas) {
+			double costoTarea = tarea.obtenerCosto();
+
+			huboRetrasos |= tarea.huboRetrasos();
+
+			costoProyecto += costoTarea;
+		}
+
+		if (huboRetrasos)
+			costoProyecto *= porcentajeAdicionalConRetrasos;
+		else
+			costoProyecto *= porcentajeAdicional;
+
+		costoFinal = costoProyecto;
+	}
 }

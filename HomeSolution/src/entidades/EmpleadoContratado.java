@@ -11,4 +11,11 @@ public class EmpleadoContratado extends Empleado {
 
 		this.valorHora = valorHora;
 	}
+
+	@Override
+	public double calcularCosto(double cantidadDeDias) {
+		double cantidadHoras = cantidadDeDias * 8;
+
+		return cantidadHoras * valorHora;
+	}
 }

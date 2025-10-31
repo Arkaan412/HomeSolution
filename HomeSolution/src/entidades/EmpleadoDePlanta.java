@@ -7,7 +7,7 @@ public class EmpleadoDePlanta extends Empleado {
 	public EmpleadoDePlanta(String nombre, double valorDia, String categoria) {
 		super(nombre);
 
-		if (valorDia <= 0 || categoriaEsValida(categoria))
+		if (valorDia <= 0 || !categoriaEsValida(categoria))
 			throw new IllegalArgumentException();
 
 		this.valorDia = valorDia;
@@ -16,5 +16,12 @@ public class EmpleadoDePlanta extends Empleado {
 
 	private boolean categoriaEsValida(String categoria) {
 		return (categoria == "INICIAL" || categoria == "TÉCNICO" || categoria == "EXPERTO");
+	}
+
+	@Override
+	public double calcularCosto(double cantidadDeDias) {
+		double cantidadHoras = Math.ceil(cantidadDeDias) * 8;
+
+		return valorDia * cantidadHoras;
 	}
 }
