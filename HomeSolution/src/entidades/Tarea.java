@@ -17,11 +17,12 @@ public class Tarea {
 
 	public Tarea(String titulo, String descripcion, double diasEstimados) {
 		if (titulo == null || titulo == "")
-			throw new IllegalArgumentException();
-		if (descripcion == null || descripcion == "")
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("El título no puede estar vacío.");
+//		if (descripcion == null || descripcion == "")
+		if (descripcion == null)
+			throw new IllegalArgumentException("La descripción no puede estar vacía.");
 		if (diasEstimados <= 0)
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("La cantidad de días debe ser mayor a 0.");
 
 		this.titulo = titulo;
 		this.descripcion = descripcion;
@@ -48,7 +49,7 @@ public class Tarea {
 
 	public void finalizar() {
 		if (estaFinalizada())
-			throw new RuntimeException();
+			throw new RuntimeException("La tarea ya está finalizada.");
 
 		estaFinalizada = true;
 
@@ -67,7 +68,7 @@ public class Tarea {
 
 	public Empleado reasignarEmpleado(Empleado nuevoEmpleado) {
 		if (this.empleado == null)
-			throw new RuntimeException();
+			throw new RuntimeException("La tarea indicada no tenía un empleado asignado.");
 
 		Empleado empleadoAnterior = this.empleado;
 		this.empleado.liberar();
@@ -78,6 +79,10 @@ public class Tarea {
 	}
 
 	public double obtenerCosto() {
+		if (empleado == null)
+			throw new IllegalArgumentException("No se puede calcular el costo de la tarea '" + titulo
+					+ "' debido a que no tiene un empleado asignado.");
+
 		double costoEmpleado = empleado.calcularCosto(diasDeTrabajoReales);
 
 		boolean esEmpleadoDePlanta = empleado instanceof EmpleadoDePlanta;

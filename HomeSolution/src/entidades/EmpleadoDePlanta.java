@@ -7,15 +7,18 @@ public class EmpleadoDePlanta extends Empleado {
 	public EmpleadoDePlanta(String nombre, double valorDia, String categoria) {
 		super(nombre);
 
-		if (valorDia <= 0 || !categoriaEsValida(categoria))
-			throw new IllegalArgumentException();
+		if (valorDia <= 0)
+			throw new IllegalArgumentException("El valor por día no puede ser menor o igual a 0.");
+		if (!categoriaEsValida(categoria))
+			throw new IllegalArgumentException("La categoría indicada no es válida");
 
 		this.valorDia = valorDia;
 		this.categoria = categoria;
 	}
 
 	private boolean categoriaEsValida(String categoria) {
-		return (categoria == "INICIAL" || categoria == "TÉCNICO" || categoria == "EXPERTO");
+		return categoria.equalsIgnoreCase("INICIAL") || categoria.equalsIgnoreCase("TÉCNICO")
+				|| categoria.equalsIgnoreCase("EXPERTO");
 	}
 
 	@Override

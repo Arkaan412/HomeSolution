@@ -52,7 +52,7 @@ public class HomeSolution implements IHomeSolution {
 		Empleado empleadoNoAsignado = obtenerEmpleadoNoAsignado();
 
 		if (empleadoNoAsignado == null)
-			throw new RuntimeException();
+			throw new RuntimeException("No hay empleados disponibles.");
 
 		Proyecto proyecto = proyectos.get(numero);
 
@@ -86,7 +86,7 @@ public class HomeSolution implements IHomeSolution {
 		Empleado empleadoNoAsignado = obtenerEmpleadoConMenosRetrasos();
 
 		if (empleadoNoAsignado == null)
-			throw new RuntimeException();
+			throw new RuntimeException("No hay empleados disponibles.");
 
 		proyecto.asignarResponsableEnTarea(titulo, empleadoNoAsignado);
 	}
@@ -99,11 +99,11 @@ public class HomeSolution implements IHomeSolution {
 	public void registrarRetrasoEnTarea(Integer numero, String titulo, double cantidadDias)
 			throws IllegalArgumentException {
 		if (cantidadDias <= 0)
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("La cantidad de días no puede ser menor o igual a 0.");
 
 		Proyecto proyecto = proyectos.get(numero);
 		if (proyecto == null)
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("No existe ningún proyecto con código " + numero);
 
 		proyecto.registrarRetraso(titulo, cantidadDias);
 	}
@@ -114,9 +114,9 @@ public class HomeSolution implements IHomeSolution {
 		Proyecto proyecto = proyectos.get(numero);
 
 		if (proyecto == null)
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("No existe ningún proyecto con código " + numero);
 		if (estaFinalizado(proyecto))
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("El proyecto ya está finalizado.");
 
 		proyecto.agregarTarea(titulo, descripcion, dias);
 	}
@@ -126,9 +126,9 @@ public class HomeSolution implements IHomeSolution {
 		Proyecto proyecto = proyectos.get(numero);
 
 		if (proyecto == null)
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("No existe ningún proyecto con código " + numero);
 		if (estaFinalizado(proyecto))
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("El proyecto ya está finalizado.");
 
 		proyecto.finalizarTarea(titulo);
 
@@ -147,9 +147,9 @@ public class HomeSolution implements IHomeSolution {
 		Proyecto proyecto = proyectos.get(numero);
 
 		if (proyecto == null)
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("No existe ningún proyecto con código " + numero);
 		if (estaFinalizado(proyecto))
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("El proyecto ya está finalizado.");
 
 		proyecto.finalizarProyecto(fin);
 	}
@@ -162,14 +162,17 @@ public class HomeSolution implements IHomeSolution {
 		Proyecto proyecto = proyectos.get(numero);
 
 		if (proyecto == null)
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("No existe ningún proyecto con código " + numero);
 		if (estaFinalizado(proyecto))
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("El proyecto ya está finalizado.");
 
 		Empleado empleado = empleados.get(legajo);
 
+		if (empleado == null)
+			throw new IllegalArgumentException("No existe ningún empleado con legajo " + legajo);
 		if (empleado.estaAsignado())
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException(
+					"El empleado que se desea asignar ya se encontraba asignado a una tarea.");
 
 		Empleado empleadoAnterior = proyecto.reasignarEmpleado(titulo, empleado);
 
@@ -183,7 +186,7 @@ public class HomeSolution implements IHomeSolution {
 	@Override
 	public void reasignarEmpleadoConMenosRetraso(Integer numero, String titulo) throws Exception {
 		if (!hayEmpleadosDisponibles())
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("No hay empleados disponibles.");
 
 		Empleado empleado = obtenerEmpleadoConMenosRetrasos();
 		int legajo = empleado.obtenerLegajo();
@@ -196,7 +199,7 @@ public class HomeSolution implements IHomeSolution {
 		Proyecto proyecto = proyectos.get(numero);
 
 		if (proyecto == null)
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("No existe ningún proyecto con código " + numero);
 
 		return proyecto.costoProyecto();
 	}
@@ -271,14 +274,14 @@ public class HomeSolution implements IHomeSolution {
 		Proyecto proyecto = proyectos.get(numero);
 
 		if (proyecto == null)
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("No existe ningún proyecto con código " + numero);
 
 		return proyecto.estaFinalizado();
 	}
 
 	public boolean estaFinalizado(Proyecto proyecto) {
 		if (proyecto == null)
-			throw new IllegalArgumentException();
+			throw new NullPointerException("El proyecto no existe.");
 
 		return proyecto.estaFinalizado();
 	}
@@ -288,7 +291,7 @@ public class HomeSolution implements IHomeSolution {
 		Empleado empleado = empleados.get(legajo);
 
 		if (empleado == null)
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("No existe ningún empleado con legajo " + legajo);
 
 		return empleado.obtenerCantidadDeRetrasos();
 	}
@@ -298,7 +301,7 @@ public class HomeSolution implements IHomeSolution {
 		Proyecto proyecto = proyectos.get(numero);
 
 		if (proyecto == null)
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("No existe ningún proyecto con código " + numero);
 
 		List<Tupla<Integer, String>> empleadosAsignados = proyecto.empleadosAsignados();
 
@@ -310,7 +313,7 @@ public class HomeSolution implements IHomeSolution {
 		Proyecto proyecto = proyectos.get(numero);
 
 		if (proyecto == null)
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("No existe ningún proyecto con código " + numero);
 
 		Object[] tareasProyectoNoAsignadas = proyecto.tareasProyectoNoAsignadas();
 
@@ -322,7 +325,7 @@ public class HomeSolution implements IHomeSolution {
 		Proyecto proyecto = proyectos.get(numero);
 
 		if (proyecto == null)
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("No existe ningún proyecto con código " + numero);
 
 		Object[] tareasDeUnProyecto = proyecto.tareasDeUnProyecto();
 
@@ -334,7 +337,7 @@ public class HomeSolution implements IHomeSolution {
 		Proyecto proyecto = proyectos.get(numero);
 
 		if (proyecto == null)
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("No existe ningún proyecto con código " + numero);
 
 		return proyecto.obtenerDomicilio();
 	}
@@ -369,7 +372,7 @@ public class HomeSolution implements IHomeSolution {
 		Proyecto proyecto = proyectos.get(numero);
 
 		if (proyecto == null)
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("No existe ningún proyecto con código " + numero);
 
 		return proyecto.toString();
 	}

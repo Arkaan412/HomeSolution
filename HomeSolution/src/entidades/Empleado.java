@@ -10,8 +10,8 @@ public abstract class Empleado {
 	private int cantidadDeRetrasos;
 
 	public Empleado(String nombre) {
-		if (nombre == null || nombre == "")
-			throw new IllegalArgumentException();
+		if (nombre == null || nombre.isEmpty())
+			throw new IllegalArgumentException("El nombre no puede ser nulo ni estar vacío.");
 
 		this.nombre = nombre;
 

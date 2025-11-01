@@ -13,11 +13,13 @@ public class Proyecto {
 
 	private Cliente cliente;
 	private String domicilio;
-	private String estado; // Puede ser pendiente, activo o finalizado.
+	private String estadoS; // Puede ser pendiente, activo o finalizado.
 
 	private LocalDate fechaInicio;
 	private LocalDate fechaFinEstimada;
 	private LocalDate fechaFinReal;
+
+	private boolean huboRetrasos;
 
 	private double costoFinal;
 	private static final double porcentajeAdicional = 1.35;
@@ -36,15 +38,15 @@ public class Proyecto {
 		fechaFinEstimada = LocalDate.parse(fin);
 		fechaFinReal = fechaFinEstimada;
 
-		estado = "Pendiente";
+		estadoS = Estado.pendiente;
 		idProyecto = siguienteID++;
 	}
 
 	private void crearTareas(String[] titulos, String[] descripcion, double[] dias) {
 		if (titulos == null || descripcion == null || dias == null)
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Uno o más parámetros son nulos.");
 		if (titulos.length != descripcion.length || descripcion.length != dias.length)
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("La cantidad de elementos por parámetro no coincide.");
 
 		int cantidadTareas = titulos.length;
 
@@ -62,16 +64,17 @@ public class Proyecto {
 
 	private void crearCliente(String[] datosCliente) {
 		if (datosCliente == null)
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Los datos del cliente no pueden ser nulos.");
 		if (datosCliente.length != 3)
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("La cantidad de datos proporcionada es distinta de 3.");
 
 		String nombre = datosCliente[0];
 		String mail = datosCliente[1];
 		String telefono = datosCliente[2];
 
-		if (nombre == "" || mail == "" || telefono == "")
-			throw new IllegalArgumentException();
+//		if (nombre == "" || mail == "" || telefono == "")
+		if (nombre == "")
+			throw new IllegalArgumentException("El nombre no puede estar vacío.");
 
 		Cliente cliente = new Cliente(nombre, mail, telefono);
 
@@ -84,20 +87,27 @@ public class Proyecto {
 
 	public void asignarResponsableEnTarea(String titulo, Empleado empleado) {
 		if (estaFinalizado())
-			throw new RuntimeException();
+			throw new IllegalArgumentException("El proyecto ya está finalizado.");
 
 		Tarea tarea = obtenerTarea(titulo);
 
-		if (tarea.obtenerEmpleado() == null)
-			throw new RuntimeException();
+		if (tarea.obtenerEmpleado() != null)
+			throw new IllegalArgumentException("La tarea indicada ya tenía un empleado asignado.");
 
 		tarea.asignarEmpleado(empleado);
+
+		activarProyecto();
 
 		calcularCostoProyecto();
 	}
 
+	private void activarProyecto() {
+		estadoS = Estado.activo;
+
+	}
+
 	public boolean estaFinalizado() {
-		return estado == "Finalizado";
+		return estadoS.equalsIgnoreCase(Estado.finalizado);
 	}
 
 	public Tarea obtenerTarea(String titulo) {
@@ -107,7 +117,7 @@ public class Proyecto {
 	public void registrarRetraso(String titulo, double cantidadDias) {
 		Tarea tarea = obtenerTarea(titulo);
 		if (tarea == null)
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("La tarea indicada no existe.");
 
 		tarea.registrarRetraso(cantidadDias);
 
@@ -123,7 +133,7 @@ public class Proyecto {
 	public void finalizarTarea(String titulo) {
 		Tarea tarea = obtenerTarea(titulo);
 		if (tarea == null)
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("La tarea indicada no existe.");
 
 		tarea.finalizar();
 
@@ -134,11 +144,12 @@ public class Proyecto {
 		LocalDate fechaFin = LocalDate.parse(fin);
 
 		if (fechaFin.isBefore(fechaInicio))
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException(
+					"La fecha de finalización no puede ser anterior a la fecha de inicio del proyecto.");
 
 		fechaFinReal = fechaFin;
 
-		estado = "Finalizado";
+		estadoS = Estado.finalizado;
 
 		calcularCostoProyecto();
 	}
@@ -146,7 +157,7 @@ public class Proyecto {
 	public Empleado reasignarEmpleado(String titulo, Empleado empleado) {
 		Tarea tarea = obtenerTarea(titulo);
 		if (tarea == null)
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("La tarea indicada no existe.");
 
 		Empleado empleadoAnterior = tarea.reasignarEmpleado(empleado);
 
@@ -160,11 +171,11 @@ public class Proyecto {
 	}
 
 	public boolean estaPendiente() {
-		return estado == "Pendiente";
+		return estadoS.equalsIgnoreCase(Estado.pendiente);
 	}
 
 	public boolean estaActivo() {
-		return estado == "Activo";
+		return estadoS.equalsIgnoreCase(Estado.activo);
 	}
 
 	public List<Tupla<Integer, String>> empleadosAsignados() {
@@ -218,8 +229,6 @@ public class Proyecto {
 
 		double costoProyecto = 0;
 
-		boolean huboRetrasos = false;
-
 		for (Tarea tarea : tareas) {
 			double costoTarea = tarea.obtenerCosto();
 
@@ -236,7 +245,6 @@ public class Proyecto {
 		costoFinal = costoProyecto;
 	}
 
-//	número, domicilio, cliente,	fecha finalización real), tareas realizadas, costo final del proyecto, y si tuvo o no retrasos
 	@Override
 	public String toString() {
 		StringBuilder infoProyecto = new StringBuilder();
@@ -254,7 +262,7 @@ public class Proyecto {
 		infoProyecto.append("\t");
 		infoProyecto.append("Costo final:" + costoFinal + "\n");
 		infoProyecto.append("\t");
-//		infoProyecto.append("¿Hubo retrasos?: " + );
+		infoProyecto.append("¿Hubo retrasos?: " + (huboRetrasos ? "SÍ" : "NO"));
 
 		return infoProyecto.toString();
 	}

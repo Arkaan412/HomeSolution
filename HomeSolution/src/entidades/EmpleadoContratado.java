@@ -7,7 +7,7 @@ public class EmpleadoContratado extends Empleado {
 		super(nombre);
 
 		if (valorHora <= 0)
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("El valor por hora no puede ser menor o igual a 0.");
 
 		this.valorHora = valorHora;
 	}
