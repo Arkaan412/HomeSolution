@@ -151,7 +151,9 @@ public class HomeSolution implements IHomeSolution {
 		if (estaFinalizado(proyecto))
 			throw new IllegalArgumentException("El proyecto ya está finalizado.");
 
-		proyecto.finalizarProyecto(fin);
+		List<Empleado> empleadosLiberados = proyecto.finalizarProyecto(fin);
+
+		empleadosNoAsignados.addAll(empleadosLiberados);
 	}
 
 	@Override
@@ -382,8 +384,8 @@ public class HomeSolution implements IHomeSolution {
 		StringBuilder infoEmpresa = new StringBuilder();
 
 		infoEmpresa.append("Empresa de servicios de mantenimiento 'HomeSolution'.\n");
-		infoEmpresa.append("Nuestros especialistas son: \n");
-		infoEmpresa.append(armarLineasDeEmpleados());
+//		infoEmpresa.append("Nuestros especialistas son: \n");
+//		infoEmpresa.append(armarLineasDeEmpleados());
 		infoEmpresa.append("Proyectos:");
 		infoEmpresa.append(armarLineasDeProyectos());
 
@@ -407,18 +409,18 @@ public class HomeSolution implements IHomeSolution {
 		return lineasDeProyectos;
 	}
 
-	private String armarLineasDeEmpleados() {
-		StringBuilder infoEmpleados = new StringBuilder();
-		ArrayList<Empleado> empleados = new ArrayList<>(this.empleados.values());
-
-		for (Empleado empleado : empleados) {
-			infoEmpleados.append("	");
-			infoEmpleados.append(empleado);
-			infoEmpleados.append("\n");
-		}
-
-		String lineasDeEmpleados = infoEmpleados.toString();
-
-		return lineasDeEmpleados;
-	}
+//	private String armarLineasDeEmpleados() {
+//		StringBuilder infoEmpleados = new StringBuilder();
+//		ArrayList<Empleado> empleados = new ArrayList<>(this.empleados.values());
+//
+//		for (Empleado empleado : empleados) {
+//			infoEmpleados.append("	");
+//			infoEmpleados.append(empleado);
+//			infoEmpleados.append("\n");
+//		}
+//
+//		String lineasDeEmpleados = infoEmpleados.toString();
+//
+//		return lineasDeEmpleados;
+//	}
 }

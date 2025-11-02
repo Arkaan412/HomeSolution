@@ -45,17 +45,23 @@ public class Tarea {
 
 	public void registrarRetraso(double cantidadDias) {
 		diasDeRetraso += cantidadDias;
+
+		empleado.registrarRetraso();
 	}
 
-	public void finalizar() {
+	public Empleado finalizar() {
 		if (estaFinalizada())
 			throw new RuntimeException("La tarea ya está finalizada.");
+		if (empleado == null)
+			throw new RuntimeException("La tarea no tiene ningún empleado asignado. No es posible finalizarla.");
 
 		estaFinalizada = true;
 
 		diasDeTrabajoReales = diasEstimados + diasDeRetraso;
 
 		liberarEmpleado();
+
+		return empleado;
 	}
 
 	private void liberarEmpleado() {
@@ -80,8 +86,10 @@ public class Tarea {
 
 	public double obtenerCosto() {
 		if (empleado == null)
-			throw new IllegalArgumentException("No se puede calcular el costo de la tarea '" + titulo
-					+ "' debido a que no tiene un empleado asignado.");
+			return 0.0;
+//		if (empleado == null)
+//			throw new IllegalArgumentException("No se puede calcular el costo de la tarea '" + titulo
+//					+ "' debido a que no tiene un empleado asignado.");
 
 		double costoEmpleado = empleado.calcularCosto(diasDeTrabajoReales);
 

@@ -13,7 +13,7 @@ public class Proyecto {
 
 	private Cliente cliente;
 	private String domicilio;
-	private String estadoS; // Puede ser pendiente, activo o finalizado.
+	private String estado; // Puede ser pendiente, activo o finalizado.
 
 	private LocalDate fechaInicio;
 	private LocalDate fechaFinEstimada;
@@ -36,9 +36,14 @@ public class Proyecto {
 
 		fechaInicio = LocalDate.parse(inicio);
 		fechaFinEstimada = LocalDate.parse(fin);
+
+		if (fechaFinEstimada.isBefore(fechaInicio))
+			throw new IllegalArgumentException(
+					"La fecha de finalización no puede ser anterior a la fecha de inicio del proyecto.");
+
 		fechaFinReal = fechaFinEstimada;
 
-		estadoS = Estado.pendiente;
+		estado = Estado.pendiente;
 		idProyecto = siguienteID++;
 	}
 
@@ -102,12 +107,12 @@ public class Proyecto {
 	}
 
 	private void activarProyecto() {
-		estadoS = Estado.activo;
+		estado = Estado.activo;
 
 	}
 
 	public boolean estaFinalizado() {
-		return estadoS.equalsIgnoreCase(Estado.finalizado);
+		return estado.equalsIgnoreCase(Estado.finalizado);
 	}
 
 	public Tarea obtenerTarea(String titulo) {
@@ -137,21 +142,54 @@ public class Proyecto {
 
 		tarea.finalizar();
 
-		calcularCostoProyecto();
+//		calcularCostoProyecto();
 	}
 
-	public void finalizarProyecto(String fin) {
+	public List<Empleado> finalizarProyecto(String fin) {
 		LocalDate fechaFin = LocalDate.parse(fin);
 
-		if (fechaFin.isBefore(fechaInicio))
-			throw new IllegalArgumentException(
-					"La fecha de finalización no puede ser anterior a la fecha de inicio del proyecto.");
+		if (!fechaFinRealEsValida(fechaFin))
+			throw new IllegalArgumentException("La fecha de finalización (" + fechaFin
+					+ ") no puede ser anterior a la fecha de inicio (" + fechaInicio + ")del proyecto.");
+
+		if (hayTareasSinAsignar())
+			throw new IllegalArgumentException("No se puede finalizar un proyecto con tareas sin asignar.");
 
 		fechaFinReal = fechaFin;
 
-		estadoS = Estado.finalizado;
+		estado = Estado.finalizado;
 
 		calcularCostoProyecto();
+
+		List<Empleado> empleadosLiberados = finalizarTareas();
+
+		return empleadosLiberados;
+	}
+
+	private boolean fechaFinRealEsValida(LocalDate fechaFin) {
+		return fechaInicio.isBefore(fechaFin);
+	}
+
+	private boolean hayTareasSinAsignar() {
+		Object[] tareasNoAsignadas = tareasProyectoNoAsignadas();
+
+		boolean hayTareasSinAsignar = tareasNoAsignadas.length != 0;
+
+		return hayTareasSinAsignar;
+	}
+
+	private List<Empleado> finalizarTareas() {
+		List<Tarea> tareas = new ArrayList<>(this.tareas.values());
+
+		List<Empleado> empleadosLiberados = new ArrayList<>();
+
+		for (Tarea tarea : tareas) {
+			Empleado empleadoLiberado = tarea.finalizar();
+
+			empleadosLiberados.add(empleadoLiberado);
+		}
+
+		return empleadosLiberados;
 	}
 
 	public Empleado reasignarEmpleado(String titulo, Empleado empleado) {
@@ -171,11 +209,11 @@ public class Proyecto {
 	}
 
 	public boolean estaPendiente() {
-		return estadoS.equalsIgnoreCase(Estado.pendiente);
+		return estado.equalsIgnoreCase(Estado.pendiente);
 	}
 
 	public boolean estaActivo() {
-		return estadoS.equalsIgnoreCase(Estado.activo);
+		return estado.equalsIgnoreCase(Estado.activo);
 	}
 
 	public List<Tupla<Integer, String>> empleadosAsignados() {

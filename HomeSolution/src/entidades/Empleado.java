@@ -51,7 +51,8 @@ public abstract class Empleado {
 
 	@Override
 	public String toString() {
-		String infoEmpleado = nombre + " | " + "Legajo: " + legajo;
+//		String infoEmpleado = nombre + " | " + "Legajo: " + legajo;
+		String infoEmpleado = legajo.toString();
 
 		return infoEmpleado;
 	}
