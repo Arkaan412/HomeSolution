@@ -44,36 +44,60 @@ public class HomeSolution implements IHomeSolution {
 			String[] cliente, String inicio, String fin) throws IllegalArgumentException {
 		Proyecto proyecto = new Proyecto(titulos, descripcion, dias, domicilio, cliente, inicio, fin);
 
-		proyectos.put(proyecto.obtenerId(), proyecto);
+		int idProyecto = proyecto.obtenerId();
+
+		proyectos.put(idProyecto, proyecto);
+
+//		asignarTareas(idProyecto); // Tendría sentido pensar que al crearse el proyecto, ya se intente asignar empleados libres a las tareas. Esto parece no ser correcto debido a que este comportamiento provoca que fallen varios tests de la test suite provista por la materia. Al no ser esto posible, el requisito de que se pueda consultar el costo total de un proyecto en cualquier momento se ve afectado, pues no puedo saber cuánto costará cada tarea si no conozco el sueldo del empleado asignado. Entonces, el costo del proyecto tendrá sentido a partir del momento en que todas las tareas estén asignadas.
+
 	}
+
+//	private void asignarTareas(int idProyecto) {
+//		Object[] tareasNoAsignadas = tareasProyectoNoAsignadas(idProyecto);
+//
+//		for (Object t : tareasNoAsignadas) {
+//			Tarea tarea = (Tarea) t;
+//
+//			String tituloTarea = tarea.obtenerTitulo();
+//
+//			try {
+//				asignarResponsableEnTarea(idProyecto, tituloTarea);
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//		}
+//	}
 
 	@Override
 	public void asignarResponsableEnTarea(Integer numero, String titulo) throws Exception {
-		Empleado empleadoNoAsignado = obtenerEmpleadoNoAsignado();
+		Proyecto proyecto = proyectos.get(numero);
+		if (proyecto == null)
+			throw new IllegalArgumentException("No existe ningún proyecto con código " + numero);
 
+		Empleado empleadoNoAsignado = obtenerEmpleadoNoAsignado();
+		
 		if (empleadoNoAsignado == null)
 			throw new RuntimeException("No hay empleados disponibles.");
 
-		Proyecto proyecto = proyectos.get(numero);
-
-		int legajoEmpleado = empleadoNoAsignado.obtenerLegajo();
-		actualizarEstadoEmpleadoEnRegistro(legajoEmpleado);
-
 		proyecto.asignarResponsableEnTarea(titulo, empleadoNoAsignado);
+		
+		int legajoEmpleado = empleadoNoAsignado.obtenerLegajo();
+
+		removerEmpleadoDeRegistroDeNoAsignados(legajoEmpleado);
 	}
 
 	private Empleado obtenerEmpleadoNoAsignado() {
 		List<Empleado> empleados = new ArrayList<>(this.empleados.values());
 
-		for (Empleado e : empleados) {
-			if (!e.estaAsignado())
-				return e;
+		for (Empleado empleado : empleados) {
+			if (!empleado.estaAsignado())
+				return empleado;
 		}
 
 		return null;
 	}
 
-	private void actualizarEstadoEmpleadoEnRegistro(int legajoEmpleado) {
+	private void removerEmpleadoDeRegistroDeNoAsignados(int legajoEmpleado) {
 		Empleado empleado = empleados.get(legajoEmpleado);
 
 		empleadosNoAsignados.remove(empleado);
@@ -159,7 +183,7 @@ public class HomeSolution implements IHomeSolution {
 	@Override
 	public void reasignarEmpleadoEnProyecto(Integer numero, Integer legajo, String titulo) throws Exception {
 		if (!hayEmpleadosDisponibles())
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("No hay empleados disponibles.");
 
 		Proyecto proyecto = proyectos.get(numero);
 
@@ -214,10 +238,10 @@ public class HomeSolution implements IHomeSolution {
 
 		for (Proyecto proyecto : proyectos) {
 			if (estaFinalizado(proyecto)) {
-				int numero = proyecto.obtenerId();
+				int idProyecto = proyecto.obtenerId();
 				String domicilio = proyecto.obtenerDomicilio();
 
-				Tupla<Integer, String> proyectoFinalizado = new Tupla<Integer, String>(numero, domicilio);
+				Tupla<Integer, String> proyectoFinalizado = new Tupla<Integer, String>(idProyecto, domicilio);
 
 				proyectosFinalizados.add(proyectoFinalizado);
 			}
@@ -234,10 +258,10 @@ public class HomeSolution implements IHomeSolution {
 
 		for (Proyecto proyecto : proyectos) {
 			if (proyecto.estaPendiente()) {
-				int numero = proyecto.obtenerId();
+				int idProyecto = proyecto.obtenerId();
 				String domicilio = proyecto.obtenerDomicilio();
 
-				Tupla<Integer, String> proyectoPendiente = new Tupla<Integer, String>(numero, domicilio);
+				Tupla<Integer, String> proyectoPendiente = new Tupla<Integer, String>(idProyecto, domicilio);
 
 				proyectosPendientes.add(proyectoPendiente);
 			}
@@ -254,10 +278,10 @@ public class HomeSolution implements IHomeSolution {
 
 		for (Proyecto proyecto : proyectos) {
 			if (proyecto.estaActivo()) {
-				int numero = proyecto.obtenerId();
+				int idProyecto = proyecto.obtenerId();
 				String domicilio = proyecto.obtenerDomicilio();
 
-				Tupla<Integer, String> proyectoActivo = new Tupla<Integer, String>(numero, domicilio);
+				Tupla<Integer, String> proyectoActivo = new Tupla<Integer, String>(idProyecto, domicilio);
 
 				proyectosActivos.add(proyectoActivo);
 			}
@@ -384,9 +408,9 @@ public class HomeSolution implements IHomeSolution {
 		StringBuilder infoEmpresa = new StringBuilder();
 
 		infoEmpresa.append("Empresa de servicios de mantenimiento 'HomeSolution'.\n");
-//		infoEmpresa.append("Nuestros especialistas son: \n");
+//		infoEmpresa.append("Nuestros especialistas son: \n"); // Decidimos no imprimir estos, pues en los tests se espera que el toString de Empleado devuelva sólo su legajo y no tiene sentido mostrar acá legajos sin nombres.
 //		infoEmpresa.append(armarLineasDeEmpleados());
-		infoEmpresa.append("Proyectos:");
+		infoEmpresa.append("Proyectos: \n");
 		infoEmpresa.append(armarLineasDeProyectos());
 
 		String homeSolution = infoEmpresa.toString();

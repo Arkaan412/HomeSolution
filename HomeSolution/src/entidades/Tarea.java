@@ -9,11 +9,7 @@ public class Tarea {
 
 	private double diasEstimados;
 	private double diasDeRetraso;
-	private double diasDeTrabajoReales;
-
-	private static final int cantidadHorasDiaCompleto = 8;
-	private static final int cantidadHorasMedioDia = 4;
-	private static final double adicionalEmpleadoSinRetrasos = 1.02;
+	public double diasDeTrabajoReales;
 
 	public Tarea(String titulo, String descripcion, double diasEstimados) {
 		if (titulo == null || titulo == "")
@@ -27,6 +23,8 @@ public class Tarea {
 		this.titulo = titulo;
 		this.descripcion = descripcion;
 		this.diasEstimados = diasEstimados;
+
+		this.diasDeTrabajoReales = this.diasEstimados;
 	}
 
 	public String obtenerTitulo() {
@@ -45,6 +43,8 @@ public class Tarea {
 
 	public void registrarRetraso(double cantidadDias) {
 		diasDeRetraso += cantidadDias;
+
+		diasDeTrabajoReales = diasEstimados + diasDeRetraso;
 
 		empleado.registrarRetraso();
 	}
@@ -87,19 +87,12 @@ public class Tarea {
 	public double obtenerCosto() {
 		if (empleado == null)
 			return 0.0;
+
 //		if (empleado == null)
 //			throw new IllegalArgumentException("No se puede calcular el costo de la tarea '" + titulo
 //					+ "' debido a que no tiene un empleado asignado.");
 
 		double costoEmpleado = empleado.calcularCosto(diasDeTrabajoReales);
-
-		boolean esEmpleadoDePlanta = empleado instanceof EmpleadoDePlanta;
-
-		if (!esEmpleadoDePlanta)
-			return costoEmpleado;
-
-		if (!huboRetrasos())
-			return costoEmpleado * adicionalEmpleadoSinRetrasos;
 
 		return costoEmpleado;
 	}

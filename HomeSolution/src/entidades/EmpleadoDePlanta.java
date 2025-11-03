@@ -23,8 +23,8 @@ public class EmpleadoDePlanta extends Empleado {
 
 	@Override
 	public double calcularCosto(double cantidadDeDias) {
-		double cantidadHoras = Math.ceil(cantidadDeDias) * 8;
+		double costo = Math.ceil(cantidadDeDias); // Si trabajó medio día, se lo cuenta como día completo.
 
-		return valorDia * cantidadHoras;
+		return valorDia * costo;
 	}
 }

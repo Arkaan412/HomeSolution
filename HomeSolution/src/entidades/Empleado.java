@@ -5,7 +5,6 @@ public abstract class Empleado {
 
 	private String nombre;
 	private Integer legajo;
-	private double valorHora;
 	private boolean estaAsignado;
 	private int cantidadDeRetrasos;
 
