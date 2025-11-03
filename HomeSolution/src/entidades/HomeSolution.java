@@ -3,6 +3,7 @@ package entidades;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.PriorityQueue;
 
@@ -230,13 +231,34 @@ public class HomeSolution implements IHomeSolution {
 		return proyecto.costoProyecto();
 	}
 
+//	@Override
+//	public List<Tupla<Integer, String>> proyectosFinalizados() {
+//		List<Proyecto> proyectos = new ArrayList<>(this.proyectos.values());
+//		
+//		List<Tupla<Integer, String>> proyectosFinalizados = new ArrayList<>();
+//		
+//		for (Proyecto proyecto : proyectos) {
+//			if (estaFinalizado(proyecto)) {
+//				int idProyecto = proyecto.obtenerId();
+//				String domicilio = proyecto.obtenerDomicilio();
+//				
+//				Tupla<Integer, String> proyectoFinalizado = new Tupla<Integer, String>(idProyecto, domicilio);
+//				
+//				proyectosFinalizados.add(proyectoFinalizado);
+//			}
+//		}
+//		
+//		return proyectosFinalizados;
+//	}
 	@Override
 	public List<Tupla<Integer, String>> proyectosFinalizados() {
-		List<Proyecto> proyectos = new ArrayList<>(this.proyectos.values());
+		Iterator<Proyecto> it = this.proyectos.values().iterator();
 
 		List<Tupla<Integer, String>> proyectosFinalizados = new ArrayList<>();
 
-		for (Proyecto proyecto : proyectos) {
+		while (it.hasNext()) {
+			Proyecto proyecto = it.next();
+			
 			if (estaFinalizado(proyecto)) {
 				int idProyecto = proyecto.obtenerId();
 				String domicilio = proyecto.obtenerDomicilio();
@@ -252,11 +274,13 @@ public class HomeSolution implements IHomeSolution {
 
 	@Override
 	public List<Tupla<Integer, String>> proyectosPendientes() {
-		List<Proyecto> proyectos = new ArrayList<>(this.proyectos.values());
+		Iterator<Proyecto> it = this.proyectos.values().iterator();
 
 		List<Tupla<Integer, String>> proyectosPendientes = new ArrayList<>();
 
-		for (Proyecto proyecto : proyectos) {
+		while (it.hasNext()) {
+			Proyecto proyecto = it.next();
+			
 			if (proyecto.estaPendiente()) {
 				int idProyecto = proyecto.obtenerId();
 				String domicilio = proyecto.obtenerDomicilio();
@@ -272,11 +296,13 @@ public class HomeSolution implements IHomeSolution {
 
 	@Override
 	public List<Tupla<Integer, String>> proyectosActivos() {
-		List<Proyecto> proyectos = new ArrayList<>(this.proyectos.values());
+		Iterator<Proyecto> it = this.proyectos.values().iterator();
 
 		List<Tupla<Integer, String>> proyectosActivos = new ArrayList<>();
 
-		for (Proyecto proyecto : proyectos) {
+		while (it.hasNext()) {
+			Proyecto proyecto = it.next();
+			
 			if (proyecto.estaActivo()) {
 				int idProyecto = proyecto.obtenerId();
 				String domicilio = proyecto.obtenerDomicilio();

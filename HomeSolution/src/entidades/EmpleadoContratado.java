@@ -14,8 +14,8 @@ public class EmpleadoContratado extends Empleado {
 
 	@Override
 	public double calcularCosto(double cantidadDeDias) {
-		double cantidadHoras = cantidadDeDias * 8;
+		double costo = cantidadDeDias * 8;
 
-		return cantidadHoras * valorHora;
+		return costo * valorHora;
 	}
 }
