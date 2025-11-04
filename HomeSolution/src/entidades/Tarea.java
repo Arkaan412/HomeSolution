@@ -11,7 +11,7 @@ public class Tarea {
 	private double diasDeRetraso;
 	public double diasDeTrabajoReales;
 
-	public Tarea(String titulo, String descripcion, double diasEstimados) {
+	protected Tarea(String titulo, String descripcion, double diasEstimados) {
 		if (titulo == null || titulo == "")
 			throw new IllegalArgumentException("El título no puede estar vacío.");
 //		if (descripcion == null || descripcion == "")
@@ -19,10 +19,12 @@ public class Tarea {
 			throw new IllegalArgumentException("La descripción no puede estar vacía.");
 		if (diasEstimados <= 0)
 			throw new IllegalArgumentException("La cantidad de días debe ser mayor a 0.");
+		if (diasEstimados % 0.5 != 0)
+			throw new IllegalArgumentException("La cantidad de días debe ser múltiplo de 0.5");
 
 		this.titulo = titulo;
 		this.descripcion = descripcion;
-		this.diasEstimados = diasEstimados;
+		this.diasEstimados = Math.ceil(diasEstimados); // Si trabajó medio día, se lo cuenta como día completo.
 
 		this.diasDeTrabajoReales = this.diasEstimados;
 	}
@@ -31,7 +33,7 @@ public class Tarea {
 		return titulo;
 	}
 
-	public void asignarEmpleado(Empleado empleado) {
+	protected void asignarEmpleado(Empleado empleado) {
 		empleado.asignar();
 
 		this.empleado = empleado;
@@ -41,7 +43,7 @@ public class Tarea {
 		return empleado;
 	}
 
-	public void registrarRetraso(double cantidadDias) {
+	protected void registrarRetraso(double cantidadDias) {
 		diasDeRetraso += cantidadDias;
 
 		diasDeTrabajoReales = diasEstimados + diasDeRetraso;
@@ -49,7 +51,7 @@ public class Tarea {
 		empleado.registrarRetraso();
 	}
 
-	public Empleado finalizar() {
+	protected Empleado finalizar() {
 		if (estaFinalizada())
 			throw new RuntimeException("La tarea ya está finalizada.");
 		if (empleado == null)
@@ -68,11 +70,11 @@ public class Tarea {
 		empleado.liberar();
 	}
 
-	public boolean estaFinalizada() {
+	protected boolean estaFinalizada() {
 		return estaFinalizada;
 	}
 
-	public Empleado reasignarEmpleado(Empleado nuevoEmpleado) {
+	protected Empleado reasignarEmpleado(Empleado nuevoEmpleado) {
 		if (this.empleado == null)
 			throw new RuntimeException("La tarea indicada no tenía un empleado asignado.");
 
@@ -87,10 +89,6 @@ public class Tarea {
 	public double obtenerCosto() {
 		if (empleado == null)
 			return 0.0;
-
-//		if (empleado == null)
-//			throw new IllegalArgumentException("No se puede calcular el costo de la tarea '" + titulo
-//					+ "' debido a que no tiene un empleado asignado.");
 
 		double costoEmpleado = empleado.calcularCosto(diasDeTrabajoReales);
 

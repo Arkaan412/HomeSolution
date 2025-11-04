@@ -3,7 +3,7 @@ package entidades;
 public class EmpleadoContratado extends Empleado {
 	private double valorHora;
 
-	public EmpleadoContratado(String nombre, double valorHora) {
+	protected EmpleadoContratado(String nombre, double valorHora) {
 		super(nombre);
 
 		if (valorHora <= 0)
@@ -13,7 +13,7 @@ public class EmpleadoContratado extends Empleado {
 	}
 
 	@Override
-	public double calcularCosto(double cantidadDeDias) {
+	protected double calcularCosto(double cantidadDeDias) {
 		double costo = cantidadDeDias * 8;
 
 		return costo * valorHora;

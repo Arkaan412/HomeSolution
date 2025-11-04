@@ -26,7 +26,7 @@ public class Proyecto {
 	private static final double porcentajeAdicionalConRetrasos = 1.25;
 	private static final double adicionalEmpleadoDePlantaSinRetrasos = 1.02;
 
-	public Proyecto(String[] titulos, String[] descripcion, double[] dias, String domicilio, String[] cliente,
+	protected Proyecto(String[] titulos, String[] descripcion, double[] dias, String domicilio, String[] cliente,
 			String inicio, String fin) {
 		LocalDate fechaInicio = LocalDate.parse(inicio);
 		LocalDate fechaFinEstimada = LocalDate.parse(fin);
@@ -63,7 +63,7 @@ public class Proyecto {
 		}
 	}
 
-	public void agregarTarea(String titulo, String descripcion, double dias) {
+	protected void agregarTarea(String titulo, String descripcion, double dias) {
 		Tarea tarea = new Tarea(titulo, descripcion, dias);
 
 //		actualizarFechaFinRealYEstimada(dias); // El enunciado dice que debería pasar esto, pero los test fallan si pasa.
@@ -100,7 +100,7 @@ public class Proyecto {
 		return idProyecto;
 	}
 
-	public void asignarResponsableEnTarea(String titulo, Empleado empleado) {
+	protected void asignarResponsableEnTarea(String titulo, Empleado empleado) {
 		if (estaFinalizado())
 			throw new IllegalArgumentException("El proyecto ya está finalizado.");
 
@@ -122,15 +122,15 @@ public class Proyecto {
 		estado = Estado.activo;
 	}
 
-	public boolean estaFinalizado() {
+	protected boolean estaFinalizado() {
 		return estado.equalsIgnoreCase(Estado.finalizado);
 	}
 
-	public Tarea obtenerTarea(String titulo) {
+	protected Tarea obtenerTarea(String titulo) {
 		return tareas.get(titulo);
 	}
 
-	public void registrarRetraso(String titulo, double cantidadDias) {
+	protected void registrarRetraso(String titulo, double cantidadDias) {
 		Tarea tarea = obtenerTarea(titulo);
 		if (tarea == null)
 			throw new IllegalArgumentException("La tarea indicada no existe.");
@@ -148,7 +148,7 @@ public class Proyecto {
 		fechaFinReal = fechaFinReal.plusDays((long) cantidadDias);
 	}
 
-	public void finalizarTarea(String titulo) {
+	protected void finalizarTarea(String titulo) {
 		Tarea tarea = obtenerTarea(titulo);
 		if (tarea == null)
 			throw new IllegalArgumentException("La tarea indicada no existe.");
@@ -158,7 +158,7 @@ public class Proyecto {
 //		calcularCostoProyecto();
 	}
 
-	public List<Empleado> finalizarProyecto(String fin) {
+	protected List<Empleado> finalizarProyecto(String fin) {
 		LocalDate fechaFin = LocalDate.parse(fin);
 
 		if (!fechasInicioYFinSonValidas(fechaInicio, fechaFin))
@@ -212,7 +212,7 @@ public class Proyecto {
 		return empleadosLiberados;
 	}
 
-	public Empleado reasignarEmpleado(String titulo, Empleado empleado) {
+	protected Empleado reasignarEmpleado(String titulo, Empleado empleado) {
 		Tarea tarea = obtenerTarea(titulo);
 		if (tarea == null)
 			throw new IllegalArgumentException("La tarea indicada no existe.");
@@ -224,19 +224,19 @@ public class Proyecto {
 		return empleadoAnterior;
 	}
 
-	public String obtenerDomicilio() {
+	protected String obtenerDomicilio() {
 		return domicilio;
 	}
 
-	public boolean estaPendiente() {
+	protected boolean estaPendiente() {
 		return estado.equalsIgnoreCase(Estado.pendiente);
 	}
 
-	public boolean estaActivo() {
+	protected boolean estaActivo() {
 		return estado.equalsIgnoreCase(Estado.activo);
 	}
 
-	public List<Tupla<Integer, String>> empleadosAsignados() {
+	protected List<Tupla<Integer, String>> empleadosAsignados() {
 		List<Tarea> tareas = new ArrayList<>(this.tareas.values());
 
 		List<Tupla<Integer, String>> empleadosAsignados = new ArrayList<>();
@@ -257,7 +257,7 @@ public class Proyecto {
 		return empleadosAsignados;
 	}
 
-	public Object[] tareasProyectoNoAsignadas() {
+	protected Object[] tareasProyectoNoAsignadas() {
 		List<Tarea> tareas = new ArrayList<>(this.tareas.values());
 
 		List<Tarea> tareasNoAsignadas = new ArrayList<>();
@@ -272,13 +272,13 @@ public class Proyecto {
 		return tareasNoAsignadas.toArray();
 	}
 
-	public Object[] tareasDeUnProyecto() {
+	protected Object[] tareasDeUnProyecto() {
 		List<Tarea> tareas = new ArrayList<>(this.tareas.values());
 
 		return tareas.toArray();
 	}
 
-	public double costoProyecto() {
+	protected double costoProyecto() {
 		return costoFinal;
 	}
 

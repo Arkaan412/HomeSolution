@@ -4,7 +4,7 @@ public class EmpleadoDePlanta extends Empleado {
 	private double valorDia;
 	private String categoria; // "INICIAL", "TÉCNICO" o "EXPERTO"
 
-	public EmpleadoDePlanta(String nombre, double valorDia, String categoria) {
+	protected EmpleadoDePlanta(String nombre, double valorDia, String categoria) {
 		super(nombre);
 
 		if (valorDia <= 0)
@@ -18,11 +18,11 @@ public class EmpleadoDePlanta extends Empleado {
 
 	private boolean categoriaEsValida(String categoria) {
 		return categoria.equalsIgnoreCase("INICIAL") || categoria.equalsIgnoreCase("TÉCNICO")
-				|| categoria.equalsIgnoreCase("EXPERTO");
+				|| categoria.equalsIgnoreCase("TECNICO") || categoria.equalsIgnoreCase("EXPERTO");
 	}
 
 	@Override
-	public double calcularCosto(double cantidadDeDias) {
+	protected double calcularCosto(double cantidadDeDias) {
 		double costo = Math.ceil(cantidadDeDias); // Si trabajó medio día, se lo cuenta como día completo.
 
 		return valorDia * costo;

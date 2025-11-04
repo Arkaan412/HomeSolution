@@ -49,7 +49,7 @@ public class HomeSolution implements IHomeSolution {
 
 		proyectos.put(idProyecto, proyecto);
 
-//		asignarTareas(idProyecto); // Tendría sentido pensar que al crearse el proyecto, ya se intente asignar empleados libres a las tareas. Esto parece no ser correcto debido a que este comportamiento provoca que fallen varios tests de la test suite provista por la materia. Al no ser esto posible, el requisito de que se pueda consultar el costo total de un proyecto en cualquier momento se ve afectado, pues no puedo saber cuánto costará cada tarea si no conozco el sueldo del empleado asignado. Entonces, el costo del proyecto tendrá sentido a partir del momento en que todas las tareas estén asignadas.
+//		asignarTareas(idProyecto); // Tendría sentido pensar que al crearse el proyecto, ya se intente asignar empleados libres a las tareas. Esto parece no ser correcto debido a que este comportamiento provoca que fallen varios tests de la test suite provista por la materia. Al no ser esto posible, el requisito de que se pueda consultar el costo total de un proyecto en cualquier momento se ve afectado, pues no puedo saber cuánto costará cada tarea si todavía no conozco el sueldo del empleado asignado. Entonces, el costo del proyecto tendrá sentido a partir del momento en que todas las tareas estén asignadas.
 
 	}
 
@@ -76,12 +76,12 @@ public class HomeSolution implements IHomeSolution {
 			throw new IllegalArgumentException("No existe ningún proyecto con código " + numero);
 
 		Empleado empleadoNoAsignado = obtenerEmpleadoNoAsignado();
-		
+
 		if (empleadoNoAsignado == null)
 			throw new RuntimeException("No hay empleados disponibles.");
 
 		proyecto.asignarResponsableEnTarea(titulo, empleadoNoAsignado);
-		
+
 		int legajoEmpleado = empleadoNoAsignado.obtenerLegajo();
 
 		removerEmpleadoDeRegistroDeNoAsignados(legajoEmpleado);
@@ -258,7 +258,7 @@ public class HomeSolution implements IHomeSolution {
 
 		while (it.hasNext()) {
 			Proyecto proyecto = it.next();
-			
+
 			if (estaFinalizado(proyecto)) {
 				int idProyecto = proyecto.obtenerId();
 				String domicilio = proyecto.obtenerDomicilio();
@@ -280,7 +280,7 @@ public class HomeSolution implements IHomeSolution {
 
 		while (it.hasNext()) {
 			Proyecto proyecto = it.next();
-			
+
 			if (proyecto.estaPendiente()) {
 				int idProyecto = proyecto.obtenerId();
 				String domicilio = proyecto.obtenerDomicilio();
@@ -302,7 +302,7 @@ public class HomeSolution implements IHomeSolution {
 
 		while (it.hasNext()) {
 			Proyecto proyecto = it.next();
-			
+
 			if (proyecto.estaActivo()) {
 				int idProyecto = proyecto.obtenerId();
 				String domicilio = proyecto.obtenerDomicilio();
@@ -434,10 +434,10 @@ public class HomeSolution implements IHomeSolution {
 		StringBuilder infoEmpresa = new StringBuilder();
 
 		infoEmpresa.append("Empresa de servicios de mantenimiento 'HomeSolution'.\n");
-//		infoEmpresa.append("Nuestros especialistas son: \n"); // Decidimos no imprimir estos, pues en los tests se espera que el toString de Empleado devuelva sólo su legajo y no tiene sentido mostrar acá legajos sin nombres.
-//		infoEmpresa.append(armarLineasDeEmpleados());
 		infoEmpresa.append("Proyectos: \n");
 		infoEmpresa.append(armarLineasDeProyectos());
+//		infoEmpresa.append("Nuestros especialistas son: \n"); // Decidimos no imprimir estos, pues en los tests se espera que el toString de Empleado devuelva sólo su legajo y no tiene sentido mostrar acá legajos sin nombres.
+//		infoEmpresa.append(armarLineasDeEmpleados());
 
 		String homeSolution = infoEmpresa.toString();
 

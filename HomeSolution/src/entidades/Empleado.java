@@ -8,7 +8,7 @@ public abstract class Empleado {
 	private boolean estaAsignado;
 	private int cantidadDeRetrasos;
 
-	public Empleado(String nombre) {
+	protected Empleado(String nombre) {
 		if (nombre == null || nombre.isEmpty())
 			throw new IllegalArgumentException("El nombre no puede ser nulo ni estar vacío.");
 
@@ -18,7 +18,7 @@ public abstract class Empleado {
 		this.estaAsignado = false;
 	}
 
-	public boolean estaAsignado() {
+	protected boolean estaAsignado() {
 		return estaAsignado;
 	}
 
@@ -26,7 +26,7 @@ public abstract class Empleado {
 		return legajo;
 	}
 
-	public void registrarRetraso() {
+	protected void registrarRetraso() {
 		cantidadDeRetrasos++;
 	}
 
@@ -34,11 +34,11 @@ public abstract class Empleado {
 		return cantidadDeRetrasos;
 	}
 
-	public void liberar() {
+	protected void liberar() {
 		estaAsignado = false;
 	}
 
-	public void asignar() {
+	protected void asignar() {
 		estaAsignado = true;
 	}
 
@@ -46,7 +46,7 @@ public abstract class Empleado {
 		return nombre;
 	}
 
-	public abstract double calcularCosto(double cantidadDeDias);
+	protected abstract double calcularCosto(double cantidadDeDias);
 
 	@Override
 	public String toString() {
