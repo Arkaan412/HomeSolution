@@ -1,5 +1,7 @@
 package entidades;
 
+import java.util.Objects;
+
 public abstract class Empleado {
 	private static int siguienteLegajo = 1;
 
@@ -54,5 +56,22 @@ public abstract class Empleado {
 		String infoEmpleado = legajo.toString();
 
 		return infoEmpleado;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(legajo);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!(obj instanceof Empleado)) {
+			return false;
+		}
+		Empleado other = (Empleado) obj;
+		return Objects.equals(legajo, other.legajo);
 	}
 }

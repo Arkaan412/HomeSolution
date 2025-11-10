@@ -99,7 +99,7 @@ public class HomeSolutionTest {
         assertTrue(lista.size()==2);
     }
     // ============================================================
-    // REASIGNACIÃ“N Y FINALIZACIÃ“N
+    // REASIGNACIÓN Y FINALIZACIÓN
     // ============================================================
     @Test(expected = IllegalArgumentException.class)
     public void testTareasNoAsignadasProyectoFinalizadoLanzaExcepcion() {

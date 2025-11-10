@@ -1,5 +1,7 @@
 package entidades;
 
+import java.util.Objects;
+
 public class Tarea {
 	private String titulo;
 	private String descripcion;
@@ -102,5 +104,22 @@ public class Tarea {
 	@Override
 	public String toString() {
 		return titulo;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(descripcion, titulo);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!(obj instanceof Tarea)) {
+			return false;
+		}
+		Tarea other = (Tarea) obj;
+		return Objects.equals(descripcion, other.descripcion) && Objects.equals(titulo, other.titulo);
 	}
 }

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class Proyecto {
 	private static int siguienteID = 1;
@@ -343,5 +344,22 @@ public class Proyecto {
 		String lineasDeTareas = infoTareas.toString();
 
 		return lineasDeTareas;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(idProyecto);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!(obj instanceof Proyecto)) {
+			return false;
+		}
+		Proyecto other = (Proyecto) obj;
+		return idProyecto == other.idProyecto;
 	}
 }
