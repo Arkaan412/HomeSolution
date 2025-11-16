@@ -11,7 +11,7 @@ public class Tarea {
 
 	private double diasEstimados;
 	private double diasDeRetraso;
-	public double diasDeTrabajoReales;
+	private double diasDeTrabajoReales;
 
 	protected Tarea(String titulo, String descripcion, double diasEstimados) {
 		if (titulo == null || titulo == "")

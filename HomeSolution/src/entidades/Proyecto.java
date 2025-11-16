@@ -218,11 +218,23 @@ public class Proyecto {
 		if (tarea == null)
 			throw new IllegalArgumentException("La tarea indicada no existe.");
 
+		double costoAnteriorTarea = tarea.obtenerCosto();
+
 		Empleado empleadoAnterior = tarea.reasignarEmpleado(empleado);
 
-		calcularCostoProyecto();
+		double costoActualizadoTarea = tarea.obtenerCosto();
+
+		actualizarCostoFinalPorReemplazoEmpleado(costoAnteriorTarea, costoActualizadoTarea);
 
 		return empleadoAnterior;
+	}
+
+	private void actualizarCostoFinalPorReemplazoEmpleado(double costoAnteriorTarea, double costoActualizadoTarea) {
+		double costoFinalAnterior = costoProyecto();
+
+		double costoFinalActualizado = costoFinalAnterior - costoAnteriorTarea + costoActualizadoTarea;
+
+		costoFinal = costoFinalActualizado;
 	}
 
 	protected String obtenerDomicilio() {
