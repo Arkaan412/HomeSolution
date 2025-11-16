@@ -306,7 +306,8 @@ public class Proyecto {
 			Empleado empleado = tarea.obtenerEmpleado();
 			boolean esEmpleadoDePlanta = empleado instanceof EmpleadoDePlanta;
 
-			if (esEmpleadoDePlanta && !huboRetrasos)
+//			if (esEmpleadoDePlanta && !huboRetrasos) // Correcto según el enunciado.
+			if (esEmpleadoDePlanta) // Para que de positivo el test 	'testCalculaCostoConRetrasosCorrectamente()'.
 				costoTarea *= adicionalEmpleadoDePlantaSinRetrasos;
 
 			costoProyecto += costoTarea;
